@@ -24,17 +24,8 @@ layui.use(['form', 'layer'], function () {
     });
 
     $("#regist").click(function () {
-        $.post("/forwordRegist", {}, function (res) {
-            // layer.close(loadIndex);
 
-            if (res.success) {
-                layer.msg(res);
-                layer.msg(res.message);
-            } else {
-                layer.msg("请求失败!");
-                layer.msg(res.message);
-            }
-        }, 'json');
+        this.src = "/toRegist";
     });
 
     $(document).ready(function () {

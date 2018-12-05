@@ -47,8 +47,11 @@ public class ShiroConfig {
         filterChainDefinitionMap.put("/admin","anon");
         filterChainDefinitionMap.put("/admin/index","anon");
         filterChainDefinitionMap.put("/admin/request","anon");
+        filterChainDefinitionMap.put("/admin/requestAll","anon");
         filterChainDefinitionMap.put("/admin/login","anon");
         filterChainDefinitionMap.put("/toLogin","anon");
+        filterChainDefinitionMap.put("/toRegist","anon");
+        filterChainDefinitionMap.put("/forwordRegist","anon");
         filterChainDefinitionMap.put("/getCaptcha","anon");
         filterChainDefinitionMap.put("/anonCtrl/","anon");
         filterChainDefinitionMap.put("/sysRole/test","anon");

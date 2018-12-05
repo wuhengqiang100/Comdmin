@@ -16,12 +16,6 @@ public class Role extends DataEntity<Role> {
     @TableField("name")
     private String name;
 
-    @TableField(exist = false)
-    private Set<Menu> menuSet;
-
-    @TableField(exist = false)
-    private Set<User> userSet;
-
     @TableField("identity")
     private String identity;
 
@@ -31,11 +25,19 @@ public class Role extends DataEntity<Role> {
     @TableField("age")
     private String age;
 
-    @TableField(value="tel")
+    @TableField("tel")
     private String tel;
 
     @TableField("email")
     private String email;
+
+    @TableField(exist = false)
+    private Set<Menu> menuSet;
+
+    @TableField(exist = false)
+    private Set<User> userSet;
+
+
 
 
     public String getName() {

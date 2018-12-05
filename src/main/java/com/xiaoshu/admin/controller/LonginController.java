@@ -77,6 +77,21 @@ public class LonginController {
         return "redirect:toLogin";
     }
 
+    @GetMapping(value = "forwordRegist")
+    public String adminForwordRegist() {
+        return "redirect:toRegist";
+    }
+
+    @PostMapping(value = "forwordRegist")
+    public String ForwordRegist() {
+        return "redirect:toRegist";
+    }
+
+    @GetMapping(value = "toRegist")
+    public String adminToRegist() {
+        return "admin/regist";
+    }
+
     @GetMapping(value = "toLogin")
     public String adminToLogin(HttpSession session, @ModelAttribute(LOGIN_TYPE) String loginType) {
         if (StringUtils.isBlank(loginType)) {
@@ -89,7 +104,7 @@ public class LonginController {
             return "admin/login";
         } else {
             session.setAttribute(LOGIN_TYPE, LoginTypeEnum.PAGE);
-            return "login";
+            return "admin/login";
         }
     }
 
@@ -104,7 +119,7 @@ public class LonginController {
             session.setAttribute("icon", StringUtils.isBlank(principal.getIcon()) ? "/static/admin/img/face.jpg" : principal.getIcon());
             return "admin/index";
         } else {
-            return "index";
+            return "admin/index";
         }
 
     }
@@ -126,9 +141,29 @@ public class LonginController {
         ImageIO.write(bufferedImage, "JPEG", response.getOutputStream());
     }
 
+    @PostMapping("admin/requestAll")
+    @SysLog("根据选择获取所有请求,返回请求信息")
+    @ResponseBody
+    public ResponseEntity adminRequestAll(ModelMap modelMap) {
+        ResponseEntity responseEntity = new ResponseEntity();
+
+        List<Role> roleList = roleService.selectAll();
+        if (null == roleList) {
+            responseEntity.setSuccess(false);
+            responseEntity.setMessage("没有任何请求!");
+            return responseEntity;
+        }
+        responseEntity.setSuccess(true);
+        responseEntity.setMessage("获取所有的请求成功!");
+        responseEntity.setAny("roleList", roleList);
+        modelMap.put("roleList", roleList);
+        return responseEntity;
+    }
+
     @PostMapping("admin/request")
     @SysLog("根据选择获取请求")
-    public ResponseEntity adminRequest(@RequestParam(value = "id", required = false) String id,ModelMap modelMap) {
+    @ResponseBody
+    public ResponseEntity adminRequest(@RequestParam(value = "id", required = false) String id, ModelMap modelMap) {
         ResponseEntity responseEntity = new ResponseEntity();
         if (StringUtils.isBlank(id)) {
             return ResponseEntity.failure("角色ID不能为空");
@@ -142,7 +177,7 @@ public class LonginController {
         responseEntity.setSuccess(true);
         responseEntity.setMessage("请求成功!");
         responseEntity.setAny("role", role);
-        modelMap.put("role",role);
+        modelMap.put("role", role);
         return responseEntity;
     }
 
