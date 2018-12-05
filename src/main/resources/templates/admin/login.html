@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>登录-SAAS云检测系统</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <link rel="stylesheet" th:href="@{/static/layui/css/layui.css}" media="all" />
+    <link rel="stylesheet" th:href="@{/static/admin/css/login.css}" media="all" />
+</head>
+<body>
+<div class="video_mask"></div>
+<div class="login">
+    <h1>SAAS-管理登录</h1>
+    <form class="layui-form" th:action="@{/admin/login}">
+        <div class="layui-inline">
+            <label class="layui-form-label" style="font-size: large;color: white">选择请求:</label>
+            <div class="layui-input-inline">
+                <select name="modules" lay-filter="selected" lay-verify="required" lay-search="">
+                    <option value="">直接选择或搜索选择</option>
+                    <option value="9160bdec86704bbf9c64ec9bc359249c">温度</option>
+                    <option value="2">湿度</option>
+                    <option value="3">Co2浓度</option>
+                </select>
+            </div>
+        </div>
+        <hr/>
+        <div class="layui-form-item">
+            <input class="layui-input" name="username" placeholder="用户名" lay-verify="required" type="text" autocomplete="off">
+        </div>
+        <div class="layui-form-item">
+            <input class="layui-input" name="password" placeholder="密码" lay-verify="required" type="password" autocomplete="off">
+        </div>
+        <div class="layui-form-item form_code">
+            <input class="layui-input" name="code" placeholder="验证码" lay-verify="required" type="text" autocomplete="off">
+            <div class="code"><img th:src="@{/getCaptcha}" width="116" height="36" th:id="randImage"></div>
+        </div>
+        <div class="layui-form-item">
+            <input type="checkbox" name="rememberMe" lay-skin="primary" title="记住帐号?">
+        </div>
+        <button class="layui-btn login_btn" lay-submit lay-filter="login">登录</button>
+    </form>
+</div>
+<script type="text/javascript" th:src="@{/static/layui/layui.js}"></script>
+<script type="text/javascript" th:src="@{/static/admin/js/login.js}"></script>
+</body>
+</html>
