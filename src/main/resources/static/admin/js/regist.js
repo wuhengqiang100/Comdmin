@@ -3,18 +3,30 @@ layui.use(['form', 'layer'], function () {
         layer = parent.layer === undefined ? layui.layer : parent.layer;
     $ = layui.jquery;
 
-    //登录按钮事件
-    form.on("submit(login)", function (data) {
+    //注册按钮事件
+    form.on("submit(regist)", function (data) {
         var loadIndex = layer.load(2, {shade: [0.3, '#333']});
-        if ($('form').find('input[type="checkbox"]')[0].checked) {
+   /*     if ($('form').find('input[type="checkbox"]')[0].checked) {
             data.field.rememberMe = true;
         } else {
             data.field.rememberMe = false;
-        }
+        }*/
         $.post(data.form.action, data.field, function (res) {
             layer.close(loadIndex);
             if (res.success) {
-                location.href = "/" + res.url;
+                layer.alert('用户属性信息注册完成,请联系管理员审核通过!', {
+                    skin: 'layui-layer-molv' //样式类名
+                    ,closeBtn: 0
+                }, function(){
+                    location.href = "/"+res.url;
+                  /*  layer.alert('偶吧深蓝style', {
+                        skin: 'layui-layer-lan'
+                        ,closeBtn: 0
+                        ,anim: 4 //动画类型
+                    });*/
+                });
+                // layer.msg(res.message);
+
             } else {
                 layer.msg(res.message);
                 $("#randImage").click();
@@ -22,15 +34,15 @@ layui.use(['form', 'layer'], function () {
         });
         return false;
     });
-
+/*
     $("#regist").click(function () {
 
         this.src = "/toRegist";
-    });
-
+    });*/
+/*
     $(document).ready(function () {
         // getRequestAll();
-    });
+    });*/
     $(document).on('keydown', function () {
         if (event.keyCode == 13) {
             $(".login_btn").click();
@@ -68,7 +80,7 @@ layui.use(['form', 'layer'], function () {
         }, 'json');
     };
 
-    form.on('select(selected)', function (data) {
+  /*  form.on('select(selected)', function (data) {
         // var loadSelect = layer.load(2, {shade: [0.3, '#333']});
         $.post("/admin/request", {id: data.value}, function (res) {
             // layer.close(loadIndex);
@@ -105,7 +117,7 @@ layui.use(['form', 'layer'], function () {
             }
         });
     });
-
+*/
     $("#randImage").click(function () {
         this.src = "/getCaptcha?t=" + Math.random();
     });

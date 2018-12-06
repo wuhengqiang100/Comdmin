@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <title>登录-SAAS云检测系统</title>
-    <meta http-equiv="Content-Type" content="multipart/form-data;charset=utf-8">
+    <!--<meta http-equiv="Content-Type" content="multipart/form-data;charset=UTF-8">-->
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -17,12 +17,12 @@
 <div class="video_mask"></div>
 <div class="login">
     <h1>SAAS-管理登录</h1>
-    <form class="layui-form" th:action="@{/admin/login}" enctype="multipart/form-data">
+    <form class="layui-form"  th:action="@{/admin/login}" th:method="post" enctype="multipart/form-data;charset=UTF-8">
         <div class="layui-inline">
             <label class="layui-form-label" style="font-size: large;color: white">选择请求:</label>
             <div class="layui-input-inline">
                 <select name="modules" lay-filter="selected" lay-verify="required" lay-search="">
-                    <option  value="">直接选择或搜索选择</option>
+                    <option  value="1">直接选择或搜索选择</option>
                     <option value="70689483-9ad7-11e8-aebe-1368d4ec24eb">温度</option>
                     <option value="706e0195-9ad7-11e8-aebe-1368d4ec24eb">湿度</option>
                     <option value="3">Co2浓度</option>
@@ -30,6 +30,7 @@
             </div>
         </div>
         <hr/>
+
         <div  id="insertForm"></div>
         <!--<div class="layui-form-item">
             <input class="layui-input" name="username" placeholder="用户名" lay-verify="required" type="text" autocomplete="off">
@@ -44,12 +45,12 @@
         <div class="layui-form-item">
             <input type="checkbox" name="rememberMe" lay-skin="primary" title="记住帐号?">
         </div>
-        <div class="layui-form-item">
+        <div class="layui-form-item loginBut">
             <button class="layui-btn login_btn" lay-submit lay-filter="login" >登录</button>
         </div>
 
     </form>
-    <div class="layui-input-inline">
+    <div class="layui-input-inline registBut">
         <button class="layui-btn" style="width:100%;" id="regist">注册</button>
     </div>
 </div>

@@ -11,6 +11,8 @@ import java.util.Set;
 
 public interface UserMapper extends BaseMapper<User> {
 
+    User selectUserByUser(User user);
+
     User selectUserByMap(Map<String,Object> map);
 
     void saveUserRoles(@Param("userId")String id, @Param("roleIds")Set<Role> roles);

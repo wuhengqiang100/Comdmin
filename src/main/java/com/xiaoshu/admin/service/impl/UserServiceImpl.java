@@ -7,6 +7,7 @@ import com.xiaoshu.admin.mapper.UserMapper;
 import com.xiaoshu.admin.entity.User;
 import com.xiaoshu.admin.service.UserService;
 import com.xiaoshu.common.util.Encodes;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,6 +18,8 @@ import java.util.Set;
 @Service
 @Transactional(rollbackFor = Exception.class)
 public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements UserService {
+
+
 
     @Override
     public User findUserByLoginName(String name) {
@@ -45,6 +48,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     public void saveUserRoles(String id, Set<Role> roleSet) {
         baseMapper.saveUserRoles(id,roleSet);
     }
+
+
 
     @Override
     @Transactional(rollbackFor = Exception.class)

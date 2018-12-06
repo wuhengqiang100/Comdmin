@@ -11,11 +11,3 @@ body{
 .form_code{ position:relative; }
 .form_code .code{ position:absolute; right:0; top:1px; cursor:pointer; }
 .login_btn{ width:100%; }
-.loginBut{
-    float: right;
-    width: 49%;
-}
-.registBut{
-    float: left;
-    width: 49%;
-}

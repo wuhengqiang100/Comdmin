@@ -11,6 +11,24 @@ layui.use(['form', 'layer'], function () {
         } else {
             data.field.rememberMe = false;
         }
+
+/*        $.ajax({
+            type:"POST",
+            url:data.form.action,
+            dataType:"json",
+            contentType:"application/json",
+            data:JSON.stringify(data.field),
+            success:function(res){
+                layer.close(loadIndex);
+                if(res.success){
+                    location.href = "/" + res.url;
+                }else{
+                    layer.msg(res.message);
+                    $("#randImage").click();
+                }
+            }
+        });*/
+
         $.post(data.form.action, data.field, function (res) {
             layer.close(loadIndex);
             if (res.success) {
@@ -19,14 +37,15 @@ layui.use(['form', 'layer'], function () {
                 layer.msg(res.message);
                 $("#randImage").click();
             }
-        });
+        },'json');
         return false;
     });
 
     $("#regist").click(function () {
-        $.post("/forwordRegist", {}, function (res) {
+        location.href = "/toRegist";
+      /*  $.post("/forwordRegist", {}, function (res) {
             // layer.close(loadIndex);
-
+            layer.msg(res);
             if (res.success) {
                 layer.msg(res);
                 layer.msg(res.message);
@@ -34,7 +53,7 @@ layui.use(['form', 'layer'], function () {
                 layer.msg("请求失败!");
                 layer.msg(res.message);
             }
-        }, 'json');
+        }, 'json');*/
     });
 
     $(document).ready(function () {
@@ -78,41 +97,47 @@ layui.use(['form', 'layer'], function () {
     };
 
     form.on('select(selected)', function (data) {
+       var valiTrue=true;
+        if(1==data.value){
+            valiTrue=false;
+            layer.msg("请选择您的请求!");
+        }
         // var loadSelect = layer.load(2, {shade: [0.3, '#333']});
-        $.post("/admin/request", {id: data.value}, function (res) {
-            // layer.close(loadIndex);
-            $("#insertForm").empty();
-            // layer.close(loadSelect);
-            if (res.success) {
+        if(valiTrue){
+            $.post("/admin/request", {id: data.value}, function (res) {
+                // layer.close(loadIndex);
+                $("#insertForm").empty();
+                // layer.close(loadSelect);
+                if (res.success) {
+                    //身份输入框
+                    if (res.role.identity != null) {
+                        // $("#insertForm01").after("<div class=\"layui-form-item\"><input class=\"layui-input\" name=\"identity\" placeholder=\"访问身份\" lay-verify=\"required\" type=\"text\" autocomplete=\"off\"></div>");
+                        $("#insertForm").append("<div class=\"layui-form-item\"><input class=\"layui-input\" name=\"identity\" placeholder=\"访问身份\" lay-verify=\"required\" type=\"text\" autocomplete=\"off\"></div>");
+                    }
+                    //发起请求地址输入框
+                    if (res.role.requestPlace != null) {
+                        $("#insertForm").append("<div class=\"layui-form-item\"><input class=\"layui-input\" name=\"requestPlace\" placeholder=\"发起请求地址\" lay-verify=\"required\" type=\"text\" autocomplete=\"off\"></div>");
+                    }
+                    //年纪输入框
+                    if (res.role.age != null) {
+                        $("#insertForm").append("<div class=\"layui-form-item\"><input class=\"layui-input\" name=\"age\" placeholder=\"年纪\" lay-verify=\"required\" type=\"text\" autocomplete=\"off\"></div>");
+                    }
+                    //电话输入框
+                    if (null!=res.role.tel && ''!=res.role.tel) {
+                        $("#insertForm").append("<div class=\"layui-form-item\"><input class=\"layui-input\" name=\"tel\" placeholder=\"电话号码\" lay-verify=\"required\" type=\"text\" autocomplete=\"off\"></div>");
+                    }
+                    //电话输入框
+                    if (res.role.email != null) {
+                        $("#insertForm").append("<div class=\"layui-form-item\"><input class=\"layui-input\" name=\"email\" placeholder=\"邮件地址\" lay-verify=\"required\" type=\"text\" autocomplete=\"off\"></div>");
+                    }
+                    //layer.close(loadIndex);
 
-                //身份输入框
-                if (res.role.identity != null) {
-                    // $("#insertForm01").after("<div class=\"layui-form-item\"><input class=\"layui-input\" name=\"identity\" placeholder=\"访问身份\" lay-verify=\"required\" type=\"text\" autocomplete=\"off\"></div>");
-                    $("#insertForm").append("<div class=\"layui-form-item\"><input class=\"layui-input\" name=\"identity\" placeholder=\"访问身份\" lay-verify=\"required\" type=\"text\" autocomplete=\"off\"></div>");
+                } else {
+                    layer.msg(res.message);
                 }
-                //发起请求地址输入框
-                if (res.role.requestPlace != null) {
-                    $("#insertForm").append("<div class=\"layui-form-item\"><input class=\"layui-input\" name=\"requestPlace\" placeholder=\"发起请求地址\" lay-verify=\"required\" type=\"text\" autocomplete=\"off\"></div>");
-                }
-                //年纪输入框
-                if (res.role.age != null) {
-                    $("#insertForm").append("<div class=\"layui-form-item\"><input class=\"layui-input\" name=\"age\" placeholder=\"年纪\" lay-verify=\"required\" type=\"text\" autocomplete=\"off\"></div>");
-                }
-                //电话输入框
-                if (res.role.tel != null) {
-                    $("#insertForm").append("<div class=\"layui-form-item\"><input class=\"layui-input\" name=\"tel\" placeholder=\"电话号码\" lay-verify=\"required\" type=\"text\" autocomplete=\"off\"></div>");
-                }
-                //电话输入框
-                if (res.role.email != null) {
-                    $("#insertForm").append("<div class=\"layui-form-item\"><input class=\"layui-input\" name=\"email\" placeholder=\"邮件地址\" lay-verify=\"required\" type=\"text\" autocomplete=\"off\"></div>");
-                }
-                //layer.close(loadIndex);
-                layer.msg(res.message);
-            } else {
+            });
+        }
 
-                layer.msg(res.message);
-            }
-        });
     });
 
     $("#randImage").click(function () {

@@ -2,7 +2,9 @@ package com.xiaoshu.admin.controller;
 
 import com.google.code.kaptcha.impl.DefaultKaptcha;
 import com.xiaoshu.admin.entity.Role;
+import com.xiaoshu.admin.entity.User;
 import com.xiaoshu.admin.entity.vo.ShowMenuVo;
+import com.xiaoshu.admin.mapper.UserMapper;
 import com.xiaoshu.admin.service.MenuService;
 import com.xiaoshu.admin.service.RoleService;
 import com.xiaoshu.admin.service.UserService;
@@ -58,6 +60,9 @@ public class LonginController {
     @Autowired
     RoleService roleService;
 
+    @Autowired
+    UserMapper userMapper;
+
     public enum LoginTypeEnum {
         PAGE, ADMIN
     }
@@ -87,10 +92,16 @@ public class LonginController {
         return "redirect:toRegist";
     }
 
-    @GetMapping(value = "toRegist")
+    @PostMapping(value = "toRegist")
     public String adminToRegist() {
         return "admin/regist";
     }
+
+    @GetMapping(value = "toRegist")
+    public String ToRegist() {
+        return "admin/regist";
+    }
+
 
     @GetMapping(value = "toLogin")
     public String adminToLogin(HttpSession session, @ModelAttribute(LOGIN_TYPE) String loginType) {
@@ -104,7 +115,7 @@ public class LonginController {
             return "admin/login";
         } else {
             session.setAttribute(LOGIN_TYPE, LoginTypeEnum.PAGE);
-            return "admin/login";
+            return "login";
         }
     }
 
@@ -119,7 +130,7 @@ public class LonginController {
             session.setAttribute("icon", StringUtils.isBlank(principal.getIcon()) ? "/static/admin/img/face.jpg" : principal.getIcon());
             return "admin/index";
         } else {
-            return "admin/index";
+            return "index";
         }
 
     }
@@ -181,10 +192,105 @@ public class LonginController {
         return responseEntity;
     }
 
-    @PostMapping("admin/login")
+    @PostMapping(value="admin/login")
     @SysLog("用户登录")
     @ResponseBody
-    public ResponseEntity adminLogin(HttpServletRequest request) {
+    public ResponseEntity adminLogin(@ModelAttribute Role lRole,HttpServletRequest request) {
+        String code = request.getParameter("code");
+        String rememberMe = request.getParameter("rememberMe");
+      /*  if (StringUtils.isBlank(username) || StringUtils.isBlank(password)) {
+            return ResponseEntity.failure("用户名或者密码不能为空");
+        } else*/
+        List<Role> roleList = roleService.selectAll();
+//        Map<String,Object> loginUser=new HashMap();
+        User loginUser=new User();
+        if (null==lRole){
+            return ResponseEntity.failure("请输入请求,以及属性值!");
+        }
+        for(Role sRole:roleList){
+            //身份验证
+            if (StringUtils.isNotBlank(lRole.getIdentity())){
+                loginUser.setIdentity(lRole.getIdentity());
+//                loginUser.put("identity",lRole.getIdentity());
+                if (!StringUtils.endsWith(lRole.getIdentity(),sRole.getIdentity())){
+                    return ResponseEntity.failure("身份不正确!");
+                }
+            }else if (StringUtils.isNotBlank(lRole.getRequestPlace())){
+//                loginUser.put("requestPlace",lRole.getRequestPlace());
+                loginUser.setRequestPlace(lRole.getRequestPlace());
+                if (!StringUtils.endsWith(lRole.getRequestPlace(),sRole.getRequestPlace())){
+                    return ResponseEntity.failure("发起请求的地址不对!");
+                }
+            }else if (StringUtils.isNotBlank(lRole.getTel())){
+//                loginUser.put("tel",lRole.getTel());
+                loginUser.setTel(lRole.getTel());
+                if (!StringUtils.endsWith(lRole.getTel(),sRole.getTel())){
+                    return ResponseEntity.failure("电话号码不对!");
+                }
+            }else if (StringUtils.isNotBlank(lRole.getEmail())){
+//                loginUser.put("email",lRole.getEmail());
+                loginUser.setEmail(lRole.getEmail());
+                if (!StringUtils.endsWith(lRole.getEmail(),sRole.getEmail())){
+                    return ResponseEntity.failure("邮箱地址不对!");
+                }
+            }else if (StringUtils.isNotBlank(lRole.getAge())){
+//                loginUser.put("age",lRole.getAge());
+                loginUser.setAge(lRole.getAge());
+                if (!StringUtils.endsWith(lRole.getAge(),sRole.getAge())){
+                    return ResponseEntity.failure("年纪不对!");
+                }
+            }
+        }
+        if (null==loginUser){
+            return ResponseEntity.failure("请输入请求,以及属性值!");
+        }
+        if (StringUtils.isBlank(code)) {
+            return ResponseEntity.failure("验证码不能为空");
+        }
+        HttpSession session = request.getSession();
+        if (session == null) {
+            return ResponseEntity.failure("session超时");
+        }
+        String trueCode = (String) session.getAttribute(Constants.VALIDATE_CODE);
+        if (StringUtils.isBlank(trueCode)) {
+            return ResponseEntity.failure("验证码超时");
+        }
+        if (StringUtils.isBlank(code) || !trueCode.toLowerCase().equals(code.toLowerCase())) {
+            return ResponseEntity.failure("验证码错误");
+        } else {
+            /*当前用户*/
+            String errorMsg = null;
+            Subject user = SecurityUtils.getSubject();
+            User secutityUser=userMapper.selectUserByUser(loginUser);
+            UsernamePasswordToken token = new UsernamePasswordToken(secutityUser.getLoginName(), "123456", Boolean.valueOf(rememberMe));
+            try {
+                user.login(token);
+                LOGGER.debug(secutityUser.getLoginName() + "用户" + LocalDate.now().toString() + ":======》登陆系统!");
+            } catch (IncorrectCredentialsException e) {
+                errorMsg = "用户名密码错误!";
+            } catch (UnknownAccountException e) {
+                errorMsg = "账户不存在!";
+            } catch (LockedAccountException e) {
+                errorMsg = "账户已被锁定!";
+            } catch (UserTypeAccountException e) {
+                errorMsg = "账户不是管理用户!";
+            }
+
+            if (StringUtils.isBlank(errorMsg)) {
+                ResponseEntity responseEntity = new ResponseEntity();
+                responseEntity.setSuccess(Boolean.TRUE);
+                responseEntity.setAny("url", "index");
+                return responseEntity;
+            } else {
+                return ResponseEntity.failure(errorMsg);
+            }
+        }
+    }
+
+    @GetMapping("admin/login")
+    @SysLog("用户登录")
+    @ResponseBody
+    public ResponseEntity adminSLogin(@RequestBody Map map, HttpServletRequest request) {
         String username = request.getParameter("username");
         String password = request.getParameter("password");
         String rememberMe = request.getParameter("rememberMe");
@@ -225,12 +331,74 @@ public class LonginController {
             if (StringUtils.isBlank(errorMsg)) {
                 ResponseEntity responseEntity = new ResponseEntity();
                 responseEntity.setSuccess(Boolean.TRUE);
-                responseEntity.setAny("url", "index");
+                responseEntity.setAny("url", "tologin");
                 return responseEntity;
             } else {
                 return ResponseEntity.failure(errorMsg);
             }
         }
+    }
+
+
+    @PostMapping("admin/regist")
+    @SysLog("用户注册,填写属性")
+    @ResponseBody
+    public ResponseEntity adminRegist(User user, HttpServletRequest request) {
+        String nickName = request.getParameter("nickName");
+        String tel = request.getParameter("tel");
+        String email = request.getParameter("email");
+        String identity = request.getParameter("identity");
+        String requestPlace = request.getParameter("requestPlace");
+        String age = request.getParameter("age");
+        String code = request.getParameter("code");
+        if (StringUtils.isBlank(nickName)) {
+            return ResponseEntity.failure("昵称不能为空");
+        } else if (StringUtils.isBlank(tel)) {
+            return ResponseEntity.failure("手机号码不能为空");
+        } else if (StringUtils.isBlank(email)) {
+            return ResponseEntity.failure("邮箱不能为空");
+        } else if (StringUtils.isBlank(identity)) {
+            return ResponseEntity.failure("身份不能为空");
+        } else if (StringUtils.isBlank(requestPlace)) {
+            return ResponseEntity.failure("常用请求地址不能为空");
+        } else if (StringUtils.isBlank(code)) {
+            return ResponseEntity.failure("验证码不能为空");
+        }
+        HttpSession session = request.getSession();
+        if (session == null) {
+            return ResponseEntity.failure("session超时");
+        }
+        String trueCode = (String) session.getAttribute(Constants.VALIDATE_CODE);
+        if (StringUtils.isBlank(trueCode)) {
+            return ResponseEntity.failure("验证码超时");
+        }
+        if (StringUtils.isBlank(code) || !trueCode.toLowerCase().equals(code.toLowerCase())) {
+            return ResponseEntity.failure("验证码错误");
+        }else{
+            //保存用户操作
+            ResponseEntity responseEntity = new ResponseEntity();
+            user.setLoginName(Constants.DEFAULT_USERNAME);
+            user.setPassword(Constants.DEFAULT_PASSWORD);
+            user.setAdminUser(true);
+            user.setLocked(false);
+            try {
+                userService.saveUser(user);
+                if(StringUtils.isBlank(user.getId())){
+                    return ResponseEntity.failure("保存用户信息出错");
+                }
+                responseEntity.setSuccess(true);
+                responseEntity.setMessage("注册成功,待管理员审核信息!");
+                responseEntity.setAny("url", "toLogin");
+                return responseEntity;
+            } catch (Exception e) {
+                responseEntity.setSuccess(false);
+                responseEntity.setMessage("注册失败,请重试!");
+                return responseEntity;
+            }
+
+
+        }
+
     }
 
     @GetMapping("admin/main")

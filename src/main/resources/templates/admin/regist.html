@@ -10,49 +10,53 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="format-detection" content="telephone=no">
     <link rel="stylesheet" th:href="@{/static/layui/css/layui.css}" media="all"/>
-    <link rel="stylesheet" th:href="@{/static/admin/css/login.css}" media="all"/>
+    <link rel="stylesheet" th:href="@{/static/admin/css/regist.css}" media="all"/>
 </head>
 <body>
 <div class="video_mask"></div>
 <div class="login">
     <h1>SAAS-用户注册</h1>
-    <form class="layui-form" th:action="@{/admin/login}">
-        <div class="layui-inline">
-            <label class="layui-form-label" style="font-size: large;color: white">选择请求:</label>
-            <div class="layui-input-inline">
-                <select name="modules" lay-filter="selected" lay-verify="required" lay-search="">
-                    <option  value="">直接选择或搜索选择</option>
-                    <option value="70689483-9ad7-11e8-aebe-1368d4ec24eb">温度</option>
-                    <option value="706e0195-9ad7-11e8-aebe-1368d4ec24eb">湿度</option>
-                    <option value="3">Co2浓度</option>
-                </select>
-            </div>
-        </div>
+    <form class="layui-form" th:action="@{/admin/regist}">
+
         <hr/>
         <div  id="insertForm"></div>
-        <!--<div class="layui-form-item">
+    <!--    <div class="layui-form-item">
             <input class="layui-input" name="username" placeholder="用户名" lay-verify="required" type="text" autocomplete="off">
+        </div>
+        <div class="layui-form-item">
+            <input class="layui-input" name="password" placeholder="密码" lay-verify="required" type="text" autocomplete="off">
         </div>-->
-        <!--    <div class="layui-form-item">
-                <input class="layui-input" name="password" placeholder="密码" lay-verify="required" type="password" autocomplete="off">
-            </div>-->
+        <div class="layui-form-item">
+            <input class="layui-input" name="nickName" placeholder="昵称" lay-verify="required" type="text" autocomplete="off">
+        </div>
+        <div class="layui-form-item">
+            <input class="layui-input" name="tel" placeholder="手机号码" lay-verify="required" type="text" autocomplete="off">
+        </div>
+        <div class="layui-form-item">
+            <input class="layui-input" name="email" placeholder="邮箱" lay-verify="required" type="text" autocomplete="off">
+        </div>
+        <div class="layui-form-item">
+            <input class="layui-input" name="identity" placeholder="身份" lay-verify="required" type="text" autocomplete="off">
+        </div>
+        <div class="layui-form-item">
+            <input class="layui-input" name="requestPlace" placeholder="常用地址" lay-verify="required" type="text" autocomplete="off">
+        </div>
+        <div class="layui-form-item">
+            <input class="layui-input" name="age" placeholder="年龄" lay-verify="required" type="text" autocomplete="off">
+        </div>
         <div class="layui-form-item form_code">
             <input class="layui-input" name="code" placeholder="验证码" lay-verify="required" type="text" autocomplete="off">
             <div class="code"><img th:src="@{/getCaptcha}" width="116" height="36" th:id="randImage"></div>
         </div>
-        <div class="layui-form-item">
+     <!--   <div class="layui-form-item">
             <input type="checkbox" name="rememberMe" lay-skin="primary" title="记住帐号?">
-        </div>
-        <div class="layui-form-item">
-            <button class="layui-btn login_btn" lay-submit lay-filter="login" >登录</button>
-        </div>
+        </div>-->
+        <button class="layui-btn login_btn" lay-submit lay-filter="regist" >注册认证</button>
 
     </form>
-    <div class="layui-input-inline">
-        <button class="layui-btn" style="width:100%;" id="regist">注册</button>
-    </div>
+
 </div>
 <script type="text/javascript" th:src="@{/static/layui/layui.js}"></script>
-<script type="text/javascript" th:src="@{/static/admin/js/login.js}"></script>
+<script type="text/javascript" th:src="@{/static/admin/js/regist.js}"></script>
 </body>
 </html>
