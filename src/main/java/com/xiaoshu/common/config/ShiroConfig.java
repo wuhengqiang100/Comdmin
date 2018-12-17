@@ -36,7 +36,7 @@ public class ShiroConfig {
         ShiroFilterFactoryBean bean = new ShiroFilterFactoryBean();
         bean.setSecurityManager(securityManager(authRealm));
         bean.setSuccessUrl("/index");
-        bean.setLoginUrl("/admin/login");
+        bean.setLoginUrl("/toLogin");
         Map<String,Filter> map = new HashMap();
         map.put("authc",new FormAuthenticationFilter());
         bean.setFilters(map);

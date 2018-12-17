@@ -53,16 +53,16 @@
         <div class="layui-inline">
             <label class="layui-form-label">手机</label>
             <div class="layui-input-block">
-                <input type="text" class="layui-input" name="tel" lay-verify="phone" placeholder="请输入邮箱">
+                <input type="text" class="layui-input" name="tel" lay-verify="phone" placeholder="请输入手机号码">
             </div>
         </div>
     </div>
     <div class="layui-form-item">
-        <label class="layui-form-label">用户角色</label>
+        <label class="layui-form-label">请求令牌</label>
         <div class="layui-input-block role-box">
             <div class="jq-role-inline">
                 <fieldset class="layui-elem-field">
-                    <legend>选择角色</legend>
+                    <legend>选择令牌</legend>
                     <div class="layui-field-box" th:each="role : ${roleList}">
                         <input type="checkbox" name="roles"  th:value="${role.id}" th:title="${role.name}" lay-filter="role" />
                     </div>

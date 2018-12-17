@@ -164,10 +164,18 @@ public class LonginController {
             responseEntity.setMessage("没有任何请求!");
             return responseEntity;
         }
+        List<String> idList=new ArrayList<>();
+        List<String> nameList=new ArrayList<>();
+        for (Role role:roleList){
+            idList.add(role.getId());
+            nameList.add(role.getName());
+        }
         responseEntity.setSuccess(true);
         responseEntity.setMessage("获取所有的请求成功!");
-        responseEntity.setAny("roleList", roleList);
-        modelMap.put("roleList", roleList);
+        responseEntity.setAny("idList", idList);
+        responseEntity.setAny("nameList", nameList);
+        modelMap.put("idList", idList);
+        modelMap.put("nameList", nameList);
         return responseEntity;
     }
 
@@ -192,10 +200,10 @@ public class LonginController {
         return responseEntity;
     }
 
-    @PostMapping(value="admin/login")
+    @PostMapping(value = "admin/login")
     @SysLog("用户登录")
     @ResponseBody
-    public ResponseEntity adminLogin(@ModelAttribute Role lRole,HttpServletRequest request) {
+    public ResponseEntity adminLogin(@ModelAttribute Role lRole, HttpServletRequest request) {
         String code = request.getParameter("code");
         String rememberMe = request.getParameter("rememberMe");
       /*  if (StringUtils.isBlank(username) || StringUtils.isBlank(password)) {
@@ -203,46 +211,63 @@ public class LonginController {
         } else*/
         List<Role> roleList = roleService.selectAll();
 //        Map<String,Object> loginUser=new HashMap();
-        User loginUser=new User();
-        if (null==lRole){
-            return ResponseEntity.failure("请输入请求,以及属性值!");
+        User loginUser = new User();
+        if(null==lRole.getName()){
+            return ResponseEntity.failure("请选择您的请求!");
         }
-        for(Role sRole:roleList){
-            //身份验证
-            if (StringUtils.isNotBlank(lRole.getIdentity())){
-                loginUser.setIdentity(lRole.getIdentity());
+        //循环查找符合的令牌
+            for (Role sRole : roleList) {
+                //身份验证
+
+                if (StringUtils.isNotBlank(lRole.getIdentity())) {
+
 //                loginUser.put("identity",lRole.getIdentity());
-                if (!StringUtils.endsWith(lRole.getIdentity(),sRole.getIdentity())){
-                    return ResponseEntity.failure("身份不正确!");
+                    if (!StringUtils.endsWith(lRole.getIdentity(), sRole.getIdentity())) {
+                        continue;
+                    }else{
+                        loginUser.setIdentity(lRole.getIdentity());
+                    }
                 }
-            }else if (StringUtils.isNotBlank(lRole.getRequestPlace())){
+                if (StringUtils.isNotEmpty(lRole.getRequestPlace())) {
 //                loginUser.put("requestPlace",lRole.getRequestPlace());
-                loginUser.setRequestPlace(lRole.getRequestPlace());
-                if (!StringUtils.endsWith(lRole.getRequestPlace(),sRole.getRequestPlace())){
-                    return ResponseEntity.failure("发起请求的地址不对!");
+
+                    if (!StringUtils.endsWith(lRole.getRequestPlace(), sRole.getRequestPlace())) {
+                        continue;
+                    }else{
+                        loginUser.setRequestPlace(lRole.getRequestPlace());
+                    }
                 }
-            }else if (StringUtils.isNotBlank(lRole.getTel())){
+                if (StringUtils.isNotEmpty(lRole.getTel())) {
 //                loginUser.put("tel",lRole.getTel());
-                loginUser.setTel(lRole.getTel());
-                if (!StringUtils.endsWith(lRole.getTel(),sRole.getTel())){
-                    return ResponseEntity.failure("电话号码不对!");
+
+                    if (!StringUtils.endsWith(lRole.getTel(), sRole.getTel())) {
+                        continue;
+                    }else{
+                        loginUser.setTel(lRole.getTel());
+                    }
                 }
-            }else if (StringUtils.isNotBlank(lRole.getEmail())){
+                if (StringUtils.isNotEmpty(lRole.getEmail())) {
 //                loginUser.put("email",lRole.getEmail());
-                loginUser.setEmail(lRole.getEmail());
-                if (!StringUtils.endsWith(lRole.getEmail(),sRole.getEmail())){
-                    return ResponseEntity.failure("邮箱地址不对!");
+
+                    if (!StringUtils.endsWith(lRole.getEmail(), sRole.getEmail())) {
+                        continue;
+                    }else{
+                        loginUser.setEmail(lRole.getEmail());
+                    }
                 }
-            }else if (StringUtils.isNotBlank(lRole.getAge())){
+                if (StringUtils.isNotEmpty(lRole.getAge())) {
 //                loginUser.put("age",lRole.getAge());
-                loginUser.setAge(lRole.getAge());
-                if (!StringUtils.endsWith(lRole.getAge(),sRole.getAge())){
-                    return ResponseEntity.failure("年纪不对!");
+
+                    if (!StringUtils.endsWith(lRole.getAge(), sRole.getAge())) {
+                        continue;
+                    }else{
+                        loginUser.setAge(lRole.getAge());
+                    }
                 }
-            }
         }
-        if (null==loginUser){
-            return ResponseEntity.failure("请输入请求,以及属性值!");
+
+        if (null==loginUser) {
+            return ResponseEntity.failure("您输入的请求或属性不正确!");
         }
         if (StringUtils.isBlank(code)) {
             return ResponseEntity.failure("验证码不能为空");
@@ -261,7 +286,44 @@ public class LonginController {
             /*当前用户*/
             String errorMsg = null;
             Subject user = SecurityUtils.getSubject();
-            User secutityUser=userMapper.selectUserByUser(loginUser);
+            User secutityUser = null;
+            try {
+                secutityUser = userMapper.selectUserByUser(loginUser);
+            } catch (Exception e) {
+                return ResponseEntity.failure("没有用户拥有这个请求权限,请联系管理员!");
+            }
+           /* if (StringUtils.isBlank(secutityUser.getIdentity())){
+                return ResponseEntity.failure("您输入的请求或属性不正确!");
+            }*/
+            if (null==secutityUser){
+                return ResponseEntity.failure("您输入的属性值不对!");
+            }
+            if (StringUtils.isNotEmpty(lRole.getIdentity())) {
+                if (!secutityUser.getIdentity().equals(lRole.getIdentity())) {
+                    return ResponseEntity.failure("请求身份不正确!");
+                }
+            }
+            if (StringUtils.isNotEmpty(lRole.getRequestPlace())) {
+                if (!secutityUser.getRequestPlace().equals(lRole.getRequestPlace())) {
+                    return ResponseEntity.failure("请求地址不正确!");
+                }
+            }
+            if (StringUtils.isNotEmpty(lRole.getAge())) {
+                if (!secutityUser.getAge().equals(lRole.getAge())) {
+                    return ResponseEntity.failure("年龄不正确!");
+                }
+            }
+            if (StringUtils.isNotEmpty(lRole.getTel())) {
+                if (!secutityUser.getTel().equals(lRole.getTel())) {
+                    return ResponseEntity.failure("电话号码不正确!");
+                }
+            }
+            if (StringUtils.isNotEmpty( lRole.getEmail())) {
+                if (!secutityUser.getEmail().equals(lRole.getEmail())) {
+                    return ResponseEntity.failure("邮箱地址不正确!");
+                }
+
+            }
             UsernamePasswordToken token = new UsernamePasswordToken(secutityUser.getLoginName(), "123456", Boolean.valueOf(rememberMe));
             try {
                 user.login(token);
@@ -285,7 +347,10 @@ public class LonginController {
                 return ResponseEntity.failure(errorMsg);
             }
         }
+
     }
+
+
 
     @GetMapping("admin/login")
     @SysLog("用户登录")
@@ -374,7 +439,7 @@ public class LonginController {
         }
         if (StringUtils.isBlank(code) || !trueCode.toLowerCase().equals(code.toLowerCase())) {
             return ResponseEntity.failure("验证码错误");
-        }else{
+        } else {
             //保存用户操作
             ResponseEntity responseEntity = new ResponseEntity();
             user.setLoginName(Constants.DEFAULT_USERNAME);
@@ -383,7 +448,7 @@ public class LonginController {
             user.setLocked(false);
             try {
                 userService.saveUser(user);
-                if(StringUtils.isBlank(user.getId())){
+                if (StringUtils.isBlank(user.getId())) {
                     return ResponseEntity.failure("保存用户信息出错");
                 }
                 responseEntity.setSuccess(true);

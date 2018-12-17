@@ -129,6 +129,44 @@ layui.config({
         })
     })
 
+    $(".changeProperty").click(function () {
+        /*var loadIndex = layer.load(2, {shade: [0.3, '#333']});
+        var action="/admin/system/user/changePassword";*/
+
+                layer.open({
+                    content: '<div class="layui-form-item">\n' +
+                    '        <label class="layui-form-label">用户名</label>\n' +
+                    '        <div class="layui-input-block">\n' +
+                    '            <input type="text" th:value="(${#strings.isEmpty(currentUser.nickName)}) ? ${currentUser.loginName} : ${currentUser.nickName}" disabled class="layui-input layui-disabled">\n' +
+                    '        </div>\n' +
+                    '    </div>\n' +
+                    '    <div class="layui-form-item">\n' +
+                    '        <label class="layui-form-label">旧密码</label>\n' +
+                    '        <div class="layui-input-block">\n' +
+                    '            <input type="password" name="oldPwd" placeholder="请输入旧密码" lay-verify="required|oldPwd" class="layui-input pwd">\n' +
+                    '        </div>\n' +
+                    '    </div>\n' +
+                    '    <div class="layui-form-item">\n' +
+                    '        <label class="layui-form-label">新密码</label>\n' +
+                    '        <div class="layui-input-block">\n' +
+                    '            <input type="password" name="newPwd" placeholder="请输入新密码" lay-verify="required|newPwd" id="oldPwd" class="layui-input pwd">\n' +
+                    '        </div>\n' +
+                    '    </div>\n' +
+                    '    <div class="layui-form-item">\n' +
+                    '        <label class="layui-form-label">确认密码</label>\n' +
+                    '        <div class="layui-input-block">\n' +
+                    '            <input type="password" name="confirmPwd" placeholder="请确认密码" lay-verify="required|confirmPwd" class="layui-input pwd">\n' +
+                    '        </div>\n' +
+                    '    </div>\n' +
+                    '    <div class="layui-form-item">\n' +
+                    '        <div class="layui-input-block">\n' +
+                    '            <button class="layui-btn" lay-submit="" lay-filter="changePwd">立即修改</button>\n' +
+                    '            <button type="reset" class="layui-btn layui-btn-primary">重置</button>\n' +
+                    '        </div>\n' +
+                    '    </div>',
+                    scrollbar: false
+    })
+
     //退出
     $(".signOut").click(function(){
         window.sessionStorage.removeItem("menu");

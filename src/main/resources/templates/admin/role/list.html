@@ -15,11 +15,11 @@
 </head>
 <body class="childrenBody">
 <fieldset class="layui-elem-field">
-    <legend>角色检索</legend>
+    <legend>令牌检索</legend>
     <div class="layui-field-box">
         <form class="layui-form">
             <div class="layui-inline">
-                <input type="text" value="" name="s_key" placeholder="可以输入角色名" class="layui-input search_input">
+                <input type="text" value="" name="s_key" placeholder="可以输入令牌名" class="layui-input search_input">
             </div>
             <div class="layui-input-inline">
                 <a class="layui-btn" lay-submit="" lay-filter="searchForm">查询</a>
@@ -27,7 +27,7 @@
 
             <shiro:hasPermission name="sys:role:add">
             <div class="layui-inline">
-                <a class="layui-btn layui-btn-normal" data-type="addUser">添加角色</a>
+                <a class="layui-btn layui-btn-normal" data-type="addUser">添加令牌</a>
             </div>
             </shiro:hasPermission>
             <shiro:hasPermission name="sys:role:delete">

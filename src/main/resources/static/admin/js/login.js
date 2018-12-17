@@ -34,8 +34,20 @@ layui.use(['form', 'layer'], function () {
             if (res.success) {
                 location.href = "/" + res.url;
             } else {
-                layer.msg(res.message);
-                $("#randImage").click();
+                layer.alert(res.message, {
+                    closeBtn: 1    // 是否显示关闭按钮
+                    ,anim:6
+                    ,btn: ['确定并重新输入'] //按钮
+                    ,yes:function(index){
+                        // obj.del();
+                        // layer.close(index);
+                        $("#randImage").click();
+                        location.reload()
+                    }
+                });
+              /*  layer.msg(res.message);
+                location.reload()
+                // $("#randImage").click();*/
             }
         },'json');
         return false;
@@ -57,7 +69,7 @@ layui.use(['form', 'layer'], function () {
     });
 
     $(document).ready(function () {
-        // getRequestAll();
+        getRequestAll();
     });
     $(document).on('keydown', function () {
         if (event.keyCode == 13) {
@@ -66,12 +78,28 @@ layui.use(['form', 'layer'], function () {
     });
 
     var getRequestAll = function () {
+        var loadIndex = layer.load(2, {shade: [0.3, '#333']});
         $.post("/admin/requestAll", {}, function (res) {
+            layer.close(loadIndex);
+          /*  $("#insertForm").append("<div class=\"layui-form-item\"><input class=\"layui-input\" name=\"identity\" placeholder=\"访问身份\" lay-verify=\"required\" type=\"text\" autocomplete=\"off\"></div>");
+            $("#init").append("<option value=''>立刻有</option>");*/
             // layer.close(loadIndex);
-            layer.msg(res);
+           /* layer.msg(res.nameList);
+            layer.msg(res.idList);
             layer.msg(res.message);
-            if (res.success) {
-                /* var list=res.roleList;
+            layer.msg(idList);
+            layer.msg(nameList);*/
+            if(res.success()){
+                $("#insertForm").append("<div class=\"layui-form-item\"><input class=\"layui-input\" name=\"identity\" placeholder=\"访问身份\" lay-verify=\"required\" type=\"text\" autocomplete=\"off\"></div>");
+
+                $(".init").after("<option value='idList.get(i)'>nameList.get(i)</option>");
+               /* for(var i=0;i<nameList.size();i++){
+                    $(".init").after
+                    $(".init").after("<option value='idList.get(i)'>nameList.get(i)</option>");
+                }*/
+            }
+           /* if (res.success) {
+                /!* var list=res.roleList;
                  for(var i=0;i<list.length;i++) {
                      var name = list[i].name;
                      var id = list[i].id;
@@ -82,17 +110,17 @@ layui.use(['form', 'layer'], function () {
                      // $("#first").appendTo("<option value=id>name</option>");
                  }
                  layer.msg("请求成功!");
-                 // layer.msg(res);*/
+                 // layer.msg(res);*!/
 
-                /* $("#first").after(" <div class=\"layui-form-item\">\n" +
+                /!* $("#first").after(" <div class=\"layui-form-item\">\n" +
                      "            <input class=\"layui-input\" name=\"username\" placeholder=\"用户名\" lay-verify=\"required\" type=\"text\" autocomplete=\"off\">\n" +
-                     "        </div>")*/
-                /*$("#first").append("");
-                $("#first").appendTo("<option value='2'>温度2</option>");*/
+                     "        </div>")*!/
+                /!*$("#first").append("");
+                $("#first").appendTo("<option value='2'>温度2</option>");*!/
             } else {
                 layer.msg("请求失败!");
                 layer.msg(res.message);
-            }
+            }*/
         }, 'json');
     };
 

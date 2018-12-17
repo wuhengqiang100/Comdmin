@@ -22,6 +22,7 @@ public class MyMetaObjectHandler implements MetaObjectHandler {
         setFieldValByName("createId", MySysUser.id(), metaObject);
         setFieldValByName("updateDate", new Date(), metaObject);
         setFieldValByName("updateId", MySysUser.id(), metaObject);
+
     }
 
     @Override

@@ -14,10 +14,20 @@ layui.use(['form', 'layer'], function () {
         $.post(data.form.action, data.field, function (res) {
             layer.close(loadIndex);
             if (res.success) {
+               /* layer.alert('用户属性信息注册完成,请联系管理员审核通过!', {
+                    closeBtn: 1    // 是否显示关闭按钮
+                    ,anim:6
+                    ,btn: ['进入登录'] //按钮
+                    ,yes:function(index){
+                        location.href = "/"+res.url;
+
+                    }
+                });*/
                 layer.alert('用户属性信息注册完成,请联系管理员审核通过!', {
                     skin: 'layui-layer-molv' //样式类名
                     ,closeBtn: 0
                 }, function(){
+
                     location.href = "/"+res.url;
                   /*  layer.alert('偶吧深蓝style', {
                         skin: 'layui-layer-lan'
@@ -47,6 +57,10 @@ layui.use(['form', 'layer'], function () {
         if (event.keyCode == 13) {
             $(".login_btn").click();
         }
+    });
+
+    $(".returnLogin").click(function(){
+        location.href = "/toLogin";
     });
 
     var getRequestAll = function () {

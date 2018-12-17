@@ -9,12 +9,12 @@ layui.use(['layer','form','table'], function() {
         var data = obj.data;
         if(obj.event === 'edit'){
             var editIndex = layer.open({
-                title : "编辑角色",
+                title : "编辑令牌",
                 type : 2,
                 content : "/admin/system/role/edit?id="+data.id,
                 success : function(layero, index){
                     setTimeout(function(){
-                        layer.tips('点击此处返回角色列表', '.layui-layer-setwin .layui-layer-close', {
+                        layer.tips('点击此处返回令牌列表', '.layui-layer-setwin .layui-layer-close', {
                             tips: 3
                         });
                     },500);
@@ -27,7 +27,7 @@ layui.use(['layer','form','table'], function() {
             layer.full(editIndex);
         }
         if(obj.event === "del"){
-            layer.confirm("你确定要删除该角色么？",{btn:['是的,我确定','我再想想']},
+            layer.confirm("你确定要删除该令牌么？",{btn:['是的,我确定','我再想想']},
                 function(){
                     $.post("/admin/system/role/delete",{"id":data.id},function (res){
                         if(res.success){
@@ -59,7 +59,7 @@ layui.use(['layer','form','table'], function() {
         cols: [[
             {type:'checkbox'},
            /* {field:'id',        title: 'ID'   },*/
-            {field:'name',        title: '角色名称'   },
+            {field:'name',        title: '令牌名称'   },
             {field:'createUser',  title: '创建人',templet:'<div>{{  d.createUser.nickName }}</div>'},
             {field:'updateUser',  title: '修改人',templet:'<div>{{  d.updateUser.nickName }}</div>'},
             {field:'createDate',  title: '创建时间',    width:'14%',templet:'<div>{{ layui.laytpl.toDateString(d.createDate) }}</div>',unresize: true}, //单元格内容水平居中
@@ -74,12 +74,12 @@ layui.use(['layer','form','table'], function() {
     var active={
         addUser : function(){
             addIndex = layer.open({
-                title : "添加角色",
+                title : "添加令牌",
                 type : 2,
                 content : "/admin/system/role/add",
                 success : function(layero, addIndex){
                     setTimeout(function(){
-                        layer.tips('点击此处返回角色列表', '.layui-layer-setwin .layui-layer-close', {
+                        layer.tips('点击此处返回令牌列表', '.layui-layer-setwin .layui-layer-close', {
                             tips: 3
                         });
                     },500);
@@ -97,7 +97,7 @@ layui.use(['layer','form','table'], function() {
                 data = checkStatus.data;
             if(data.length > 0){
                 console.log(JSON.stringify(data));
-                layer.confirm("你确定要删除这些角色么？",{btn:['是的,我确定','我再想想']},
+                layer.confirm("你确定要删除这些令牌么？",{btn:['是的,我确定','我再想想']},
                     function(){
                         var deleteindex = layer.msg('删除中，请稍候',{icon: 16,time:false,shade:0.8});
                         $.ajax({
@@ -120,7 +120,7 @@ layui.use(['layer','form','table'], function() {
                     }
                 )
             }else{
-                layer.msg("请选择需要删除的角色",{time:1000});
+                layer.msg("请选择需要删除的令牌",{time:1000});
             }
         }
     };

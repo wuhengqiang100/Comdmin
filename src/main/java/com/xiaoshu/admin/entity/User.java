@@ -55,8 +55,8 @@ public class User extends DataEntity<User> {
     @TableField("age")
     private String age;
 
-    @TableField("reputation")
-    private String reputation;
+  /*  @TableField("reputation")
+    private String reputation;*/
     /**
      * 账户是否锁定
      */

@@ -17,7 +17,7 @@
         <result property="identity" column="identity"/>
         <result property="requestPlace" column="request_place"/>
         <result property="age" column="age"/>
-        <result property="reputation" column="reputation"/>
+       <!-- <result property="reputation" column="reputation"/>-->
         <result property="icon" column="icon" />
     </resultMap>
 
@@ -36,7 +36,7 @@
     <result property="identity" column="identity"/>
     <result property="requestPlace" column="request_place"/>
     <result property="age" column="age"/>
-    <result property="reputation" column="reputation"/>
+   <!-- <result property="reputation" column="reputation"/>-->
     <result property="icon" column="icon" />
     <collection property="roleLists"  ofType="com.xiaoshu.admin.entity.Role">
       <result property="id" column="role.id"/>
@@ -70,18 +70,19 @@
         <if test="identity != null and identity != ''">
             s.identity=#{identity}
         </if>
-        <if test="age != null and age != ''">
-           AND s.age=#{user.age }
+        <if test="requestPlace != null and requestPlace != ''">
+            AND s.request_place=#{requestPlace }
         </if>
-        <if test="tel != null and tel != ''">
+        <if test="age != null">
+           AND s.age=#{age }
+        </if>
+        <if test="tel != null">
            AND s.tel=#{tel }
         </if>
         <if test="email != null and email != ''">
-           AND  s.email=#{user.email }
+           AND  s.email=#{email }
         </if>
-        <if test="requestPlace != null and requestPlace != ''">
-           AND s.request_place=#{requestPlace }
-        </if>
+
     </select>
 
     <select id="selectUserByMap" parameterType="java.util.Map" resultMap="UserMap">
@@ -98,7 +99,7 @@
         u.identity,
         u.request_place,
         u.age,
-        u.reputation,
+        /*u.reputation,*/
       u.locked,
       u.is_admin,
       u.del_flag,
