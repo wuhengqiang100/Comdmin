@@ -149,5 +149,12 @@
     <delete id="dropUserRolesByUserId" parameterType="java.lang.String">
         delete from sys_user_role where user_id = #{userId}
     </delete>
+    <insert id="insertUserRegist">
+        INSERT INTO sys_user
+        (id,login_name,nick_name,icon,password,salt,tel,email,identity,request_place,age,locked,create_date,create_by,update_date,update_by,remarks,del_flag,is_admin)
+        VALUES
+        (NULL,#{nickName},#{nickName},null,null,null,tel,#{email},#{identity},#{requestPlace},#{age},1,now(),NULL ,now(),NULL ,NULL ,0,1);
+    </insert>
+
 
 </mapper>

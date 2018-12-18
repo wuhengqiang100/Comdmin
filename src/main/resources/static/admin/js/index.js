@@ -129,9 +129,9 @@ layui.config({
         })
     })
 
-    $(".changeProperty").click(function () {
-        /*var loadIndex = layer.load(2, {shade: [0.3, '#333']});
-        var action="/admin/system/user/changePassword";*/
+   /* $(".changeProperty").click(function () {
+        /!*var loadIndex = layer.load(2, {shade: [0.3, '#333']});
+        var action="/admin/system/user/changePassword";*!/
 
                 layer.open({
                     content: '<div class="layui-form-item">\n' +
@@ -165,7 +165,7 @@ layui.config({
                     '        </div>\n' +
                     '    </div>',
                     scrollbar: false
-    })
+    })*/
 
     //退出
     $(".signOut").click(function(){

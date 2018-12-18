@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>修改密码--后台管理</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <link rel="stylesheet" th:href="@{/static/layui/css/layui.css}" media="all" />
+</head>
+<body class="childrenBody">
+<div class="layui-container">
+    <div class="layui-row">
+        <div class="layui-card">
+            <!--<div class="layui-card-header">卡片面板</div>-->
+            <div class="layui-card-body" style="margin-top: 20px">
+                <div class="layui-col-md4 layui-col-md-offset3">
+                    <form class="layui-form changePwd">
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">用户名:&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                            <div class="layui-input-block">
+                                <input type="text" th:value="(${#strings.isEmpty(currentUser.nickName)}) ? ${currentUser.loginName} : ${currentUser.nickName}" disabled class="layui-input layui-disabled">
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">常用身份:</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="identity" th:value="${currentUser.identity}" disabled class="layui-input layui-disabled">
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">请求地址:</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="requestPlace" th:value="${currentUser.requestPlace}" disabled class="layui-input layui-disabled">
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">手机号码:</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="tel" th:value="${currentUser.tel}" disabled class="layui-input layui-disabled">
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">邮箱地址:</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="email" th:value="${currentUser.email}" disabled class="layui-input layui-disabled">
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">年龄:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="age" th:value="${currentUser.age}" disabled class="layui-input layui-disabled">
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <div class="layui-input-block">
+                                <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                                <button class="layui-btn" lay-submit="" lay-filter="changePwd">修改属性</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+
+<script type="text/javascript" th:src="@{/static/layui/layui.js}"></script>
+<script>
+    layui.use(['form','jquery','layer'],function(){
+        var form = layui.form,
+            $    = layui.jquery,
+            layer = layui.layer;
+
+        //添加验证规则
+   /*     form.verify({
+            newPwd : function(value, item){
+                if(value.length < 6){
+                    return "密码长度不能小于6位";
+                }
+            },
+            confirmPwd : function(value, item){
+                if(!new RegExp($("#oldPwd").val()).test(value)){
+                    return "两次输入密码不一致，请重新输入！";
+                }
+            }
+        });*/
+
+        form.on("submit(changePwd)",function(data){
+            layer.confirm('修改个人属性,请联系管理员？', {
+                skin: 'layui-layer-molv'
+                ,closeBtn: 1,
+                icon: 3, title: '提示',
+                btn: ['返回','联系管理员'] //按钮
+            }, function(){
+                layer.closeAll('dialog'); //关闭信息框
+            }, function(){
+                $.post("/admin/system/user/changeProperties","",function(res){
+                    if(res.success){
+                        layer.msg("已联系管理员")
+                    }else{
+                        layer.msg(res.message);
+                    }
+                });
+                return false;
+             /*   layer.msg('也可以这样', {
+                    time: 20000, //20s后自动关闭
+                    btn: ['明白了', '知道了']
+                });*/
+            });
+            return false;
+           /* layer.confirm('修改属性,请联系系统管理员!', {
+                /!*skin: 'layui-layer-molv' //样式类名
+                ,closeBtn: 0,*!/
+                btn: ['重要','奇葩'] //按钮
+            }, function(){
+                layer.msg('的确很重要', {icon: 1});
+            },function(){
+                layer.msg('也可以这样', {
+                    time: 20000, //20s后自动关闭
+                    btn: ['明白了', '知道了']
+                });
+            });*/
+         /*   $.post("/admin/system/user/changePassword",data.field,function(res){
+                if(res.success){
+                    layer.msg("密码修改成功,请重新登录",{"time":1000},function(){
+                        sessionStorage.clear();
+                        localStorage.clear();
+                        parent.location.href = "/systemLogout";
+                    })
+                }else{
+                    layer.msg(res.message);
+                }
+            });*/
+            return false;
+        });
+    });
+</script>
+</body>
+</html>

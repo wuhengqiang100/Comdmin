@@ -138,16 +138,16 @@ layui.use(['form', 'layer'], function () {
                 // layer.close(loadSelect);
                 if (res.success) {
                     //身份输入框
-                    if (res.role.identity != null) {
+                    if (res.role.identity != null && res.role.identity!="") {
                         // $("#insertForm01").after("<div class=\"layui-form-item\"><input class=\"layui-input\" name=\"identity\" placeholder=\"访问身份\" lay-verify=\"required\" type=\"text\" autocomplete=\"off\"></div>");
                         $("#insertForm").append("<div class=\"layui-form-item\"><input class=\"layui-input\" name=\"identity\" placeholder=\"访问身份\" lay-verify=\"required\" type=\"text\" autocomplete=\"off\"></div>");
                     }
                     //发起请求地址输入框
-                    if (res.role.requestPlace != null) {
+                    if (res.role.requestPlace != null && res.role.requestPlace!="") {
                         $("#insertForm").append("<div class=\"layui-form-item\"><input class=\"layui-input\" name=\"requestPlace\" placeholder=\"发起请求地址\" lay-verify=\"required\" type=\"text\" autocomplete=\"off\"></div>");
                     }
                     //年纪输入框
-                    if (res.role.age != null) {
+                    if (res.role.age != null &&res.role.age!="") {
                         $("#insertForm").append("<div class=\"layui-form-item\"><input class=\"layui-input\" name=\"age\" placeholder=\"年纪\" lay-verify=\"required\" type=\"text\" autocomplete=\"off\"></div>");
                     }
                     //电话输入框
@@ -155,7 +155,7 @@ layui.use(['form', 'layer'], function () {
                         $("#insertForm").append("<div class=\"layui-form-item\"><input class=\"layui-input\" name=\"tel\" placeholder=\"电话号码\" lay-verify=\"required\" type=\"text\" autocomplete=\"off\"></div>");
                     }
                     //电话输入框
-                    if (res.role.email != null) {
+                    if (res.role.email != null && res.role.email!="") {
                         $("#insertForm").append("<div class=\"layui-form-item\"><input class=\"layui-input\" name=\"email\" placeholder=\"邮件地址\" lay-verify=\"required\" type=\"text\" autocomplete=\"off\"></div>");
                     }
                     //layer.close(loadIndex);

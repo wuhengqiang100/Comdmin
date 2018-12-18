@@ -1,9 +1,11 @@
 package com.xiaoshu.admin.controller;
 
 import com.google.code.kaptcha.impl.DefaultKaptcha;
+import com.xiaoshu.admin.entity.Message;
 import com.xiaoshu.admin.entity.Role;
 import com.xiaoshu.admin.entity.User;
 import com.xiaoshu.admin.entity.vo.ShowMenuVo;
+import com.xiaoshu.admin.mapper.MessageMapper;
 import com.xiaoshu.admin.mapper.UserMapper;
 import com.xiaoshu.admin.service.MenuService;
 import com.xiaoshu.admin.service.RoleService;
@@ -63,6 +65,9 @@ public class LonginController {
     @Autowired
     UserMapper userMapper;
 
+    @Autowired
+    MessageMapper messageMapper;
+
     public enum LoginTypeEnum {
         PAGE, ADMIN
     }
@@ -120,7 +125,11 @@ public class LonginController {
     }
 
     @GetMapping(value = "index")
-    public String index(HttpSession session, @ModelAttribute(LOGIN_TYPE) String loginType) {
+    public String index(HttpSession session, @ModelAttribute(LOGIN_TYPE) String loginType,ModelMap modelMap) {
+        String userId = MySysUser.id();
+        List<Message> messageList=new ArrayList<>();
+        messageList=messageMapper.selectMessageList(userId);
+        modelMap.put("messageList",messageList);
         if (StringUtils.isBlank(loginType)) {
             LoginTypeEnum attribute = (LoginTypeEnum) session.getAttribute(LOGIN_TYPE);
             loginType = attribute == null ? loginType : attribute.name();
@@ -327,6 +336,7 @@ public class LonginController {
             UsernamePasswordToken token = new UsernamePasswordToken(secutityUser.getLoginName(), "123456", Boolean.valueOf(rememberMe));
             try {
                 user.login(token);
+                session.setAttribute("secutityUser",secutityUser);
                 LOGGER.debug(secutityUser.getLoginName() + "用户" + LocalDate.now().toString() + ":======》登陆系统!");
             } catch (IncorrectCredentialsException e) {
                 errorMsg = "用户名密码错误!";
@@ -447,7 +457,8 @@ public class LonginController {
             user.setAdminUser(true);
             user.setLocked(false);
             try {
-                userService.saveUser(user);
+                userMapper.insertUserRegist(user);
+//                userService.save(user);
                 if (StringUtils.isBlank(user.getId())) {
                     return ResponseEntity.failure("保存用户信息出错");
                 }
@@ -460,7 +471,6 @@ public class LonginController {
                 responseEntity.setMessage("注册失败,请重试!");
                 return responseEntity;
             }
-
 
         }
 

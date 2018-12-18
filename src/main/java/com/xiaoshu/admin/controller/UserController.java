@@ -3,8 +3,11 @@ package com.xiaoshu.admin.controller;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.xiaoshu.admin.entity.Message;
 import com.xiaoshu.admin.entity.Role;
 import com.xiaoshu.admin.entity.User;
+import com.xiaoshu.admin.mapper.MessageMapper;
+import com.xiaoshu.admin.service.MessageService;
 import com.xiaoshu.admin.service.RoleService;
 import com.xiaoshu.admin.service.UploadService;
 import com.xiaoshu.admin.service.UserService;
@@ -16,6 +19,7 @@ import com.xiaoshu.common.util.Encodes;
 import com.xiaoshu.common.util.ResponseEntity;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.apache.shiro.web.session.HttpServletSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -25,6 +29,7 @@ import org.springframework.web.util.WebUtils;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -42,6 +47,12 @@ public class UserController {
 
     @Autowired
     UploadService uploadService;
+
+    @Autowired
+    MessageService messageService;
+
+    @Autowired
+    MessageMapper messageMapper;
 
     @GetMapping("list")
     @SysLog("跳转系统用户列表页面")
@@ -246,7 +257,7 @@ public class UserController {
         if(StringUtils.isBlank(user.getLoginName())){
             return ResponseEntity.failure("登录名不能为空");
         }
-        User oldUser = userService.findUserById(user.getId());
+ /*       User oldUser = userService.findUserById(user.getId());
         if(StringUtils.isNotBlank(user.getEmail())){
             if(!user.getEmail().equals(oldUser.getEmail())){
                 if(userService.userCount(user.getEmail())>0){
@@ -260,7 +271,7 @@ public class UserController {
                     return ResponseEntity.failure("该手机号已经被绑定");
                 }
             }
-        }
+        }*/
         userService.updateById(user);
         return ResponseEntity.success("操作成功");
     }
@@ -270,6 +281,32 @@ public class UserController {
         modelMap.put("currentUser",userService.getById(MySysUser.id()));
         return "admin/user/changePassword";
     }
+
+    @GetMapping("changeProperties")
+    public String changeProperties(ModelMap modelMap){
+        modelMap.put("currentUser",userService.getById(MySysUser.id()));
+        return "admin/user/changeProperties";
+    }
+
+    @SysLog("用户修改属性")
+    @PostMapping("changeProperties")
+    @ResponseBody
+    public ResponseEntity changeProperties(){
+        User user= userService.findUserByLoginName("管理员");
+        String fromUserId = MySysUser.id();
+        Message message=new Message();
+        message.setTitle("申请修改属性值");
+        message.setFromU(fromUserId);
+        message.setContent("");
+        message.setMessageType("属性更改");
+        message.setToUser(user.getId());
+        if (StringUtils.isBlank(message.getTitle())){
+            return ResponseEntity.failure("标题不能为空!");
+        }
+        messageMapper.saveMessage(message);
+        return ResponseEntity.success("修改成功");
+    }
+
 
     @SysLog("用户修改密码")
     @PostMapping("changePassword")

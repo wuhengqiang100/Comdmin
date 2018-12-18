@@ -18,4 +18,6 @@ public interface UserMapper extends BaseMapper<User> {
     void saveUserRoles(@Param("userId")String id, @Param("roleIds")Set<Role> roles);
 
     void dropUserRolesByUserId(@Param("userId")String id);
+
+    void insertUserRegist(User user);
 }
