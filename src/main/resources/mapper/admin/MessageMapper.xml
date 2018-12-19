@@ -11,6 +11,11 @@
         <result property="toUser" column="toUser"/>
         <result property="isLook" column="isLook"/>
         <result property="sendTime" column="sendTime"/>
+        <collection property="fromUser"  ofType="com.xiaoshu.admin.entity.User">
+            <result property="id" column="fromUser.id"/>
+            <result property="loginName" column="login_name"/>
+            <result property="nickName" column="nick_name"/>
+        </collection>
     </resultMap>
 
     <insert id="saveMessage">
@@ -21,6 +26,8 @@
     </insert>
 
     <select id="selectMessageList" resultMap="MessageMap" parameterType="String">
-        select * from t_message where toUser=#{toUser};
+        select tm.*,su.* from t_message tm
+        LEFT JOIN sys_user su ON  tm.fromU=su.id
+        where toUser=#{toUser};
     </select>
 </mapper>

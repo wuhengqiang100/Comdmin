@@ -3,7 +3,7 @@
       xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
 <head>
     <meta charset="utf-8">
-    <title>首页--小树Admin后台管理</title>
+    <title>首页--SAAS后台管理</title>
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -102,17 +102,16 @@
                 <div class="panel-header">最新消息</div>
                 <div class="panel-body">
                     <div class="commentbox">
-                        <ul class="commentList">
-                            <li class="item cl"><a href="#"><i class="avatar size-L radius"><img alt=""
-                                                                                                 src="http://static.h-ui.net/h-ui/images/ucnter/avatar-default.jpg"></i></a>
+                        <ul class="commentList" th:each="message:${session.messageList}">
+                            <li class="item cl"><a href="#"><i class="avatar size-L radius"><img alt="" src="http://static.h-ui.net/h-ui/images/ucnter/avatar-default.jpg"></i></a>
                                 <div class="comment-main">
                                     <header class="comment-header">
-                                        <div class="comment-meta"><a class="comment-author" href="#">慕枫</a> 评论于
-                                            <time title="2014年8月31日 下午3:20" datetime="2014-08-31T03:54:20">2014-8-31 15:20</time>
+                                        <div class="comment-meta"><a class="comment-author" href="#" th:text="${message.fromUser.getNickName()}"></a> 评论于
+                                            <time th:datetime="${message.sendTime}"></time>
                                         </div>
                                     </header>
                                     <div class="comment-body">
-                                        <p><a href="#">@某人</a> 系统真不错！！！</p>
+                                        <p th:text="${message.title}"><a href="#">@某人</a> 系统真不错！！！</p>
                                     </div>
                                 </div>
                             </li>

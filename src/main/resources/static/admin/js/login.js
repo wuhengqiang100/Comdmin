@@ -81,23 +81,16 @@ layui.use(['form', 'layer'], function () {
         var loadIndex = layer.load(2, {shade: [0.3, '#333']});
         $.post("/admin/requestAll", {}, function (res) {
             layer.close(loadIndex);
-          /*  $("#insertForm").append("<div class=\"layui-form-item\"><input class=\"layui-input\" name=\"identity\" placeholder=\"访问身份\" lay-verify=\"required\" type=\"text\" autocomplete=\"off\"></div>");
-            $("#init").append("<option value=''>立刻有</option>");*/
-            // layer.close(loadIndex);
-           /* layer.msg(res.nameList);
-            layer.msg(res.idList);
-            layer.msg(res.message);
-            layer.msg(idList);
-            layer.msg(nameList);*/
+     /*
             if(res.success()){
                 $("#insertForm").append("<div class=\"layui-form-item\"><input class=\"layui-input\" name=\"identity\" placeholder=\"访问身份\" lay-verify=\"required\" type=\"text\" autocomplete=\"off\"></div>");
 
                 $(".init").after("<option value='idList.get(i)'>nameList.get(i)</option>");
-               /* for(var i=0;i<nameList.size();i++){
+               /!* for(var i=0;i<nameList.size();i++){
                     $(".init").after
                     $(".init").after("<option value='idList.get(i)'>nameList.get(i)</option>");
-                }*/
-            }
+                }*!/
+            }*/
            /* if (res.success) {
                 /!* var list=res.roleList;
                  for(var i=0;i<list.length;i++) {

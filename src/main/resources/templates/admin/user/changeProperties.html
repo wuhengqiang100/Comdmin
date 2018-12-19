@@ -57,8 +57,8 @@
                         </div>
                         <div class="layui-form-item">
                             <div class="layui-input-block">
-                                <button type="reset" class="layui-btn layui-btn-primary">重置</button>
-                                <button class="layui-btn" lay-submit="" lay-filter="changePwd">修改属性</button>
+                               <!-- <button type="text" class="layui-btn layui-btn-primary returnClass">返回</button>-->
+                                <button class="layui-btn" lay-submit="" lay-filter="changePwd" style="text-align: center">修改属性</button>
                             </div>
                         </div>
                     </form>
@@ -91,7 +91,9 @@
                 }
             }
         });*/
-
+        $(".returnClass").click(function(){
+            parent.location.reload();
+        });
         form.on("submit(changePwd)",function(data){
             layer.confirm('修改个人属性,请联系管理员？', {
                 skin: 'layui-layer-molv'

@@ -114,7 +114,8 @@ public class LonginController {
             LoginTypeEnum attribute = (LoginTypeEnum) session.getAttribute(LOGIN_TYPE);
             loginType = attribute == null ? loginType : attribute.name();
         }
-
+        List<Role> roleList = roleService.selectAll();
+        session.setAttribute("roleList",roleList);
         if (LoginTypeEnum.ADMIN.name().equals(loginType)) {
             session.setAttribute(LOGIN_TYPE, LoginTypeEnum.ADMIN);
             return "admin/login";
@@ -125,11 +126,10 @@ public class LonginController {
     }
 
     @GetMapping(value = "index")
-    public String index(HttpSession session, @ModelAttribute(LOGIN_TYPE) String loginType,ModelMap modelMap) {
+    public String index(HttpSession session, @ModelAttribute(LOGIN_TYPE) String loginType) {
         String userId = MySysUser.id();
-        List<Message> messageList=new ArrayList<>();
-        messageList=messageMapper.selectMessageList(userId);
-        modelMap.put("messageList",messageList);
+        List<Message>  messageList=messageMapper.selectMessageList(userId);
+        session.setAttribute("messageList",messageList);
         if (StringUtils.isBlank(loginType)) {
             LoginTypeEnum attribute = (LoginTypeEnum) session.getAttribute(LOGIN_TYPE);
             loginType = attribute == null ? loginType : attribute.name();
@@ -307,31 +307,35 @@ public class LonginController {
             if (null==secutityUser){
                 return ResponseEntity.failure("您输入的属性值不对!");
             }
-            if (StringUtils.isNotEmpty(lRole.getIdentity())) {
-                if (!secutityUser.getIdentity().equals(lRole.getIdentity())) {
-                    return ResponseEntity.failure("请求身份不正确!");
+            try {
+                if (StringUtils.isNotEmpty(lRole.getIdentity())) {
+                    if (!secutityUser.getIdentity().equals(lRole.getIdentity())) {
+                        return ResponseEntity.failure("请求身份不正确!");
+                    }
                 }
-            }
-            if (StringUtils.isNotEmpty(lRole.getRequestPlace())) {
-                if (!secutityUser.getRequestPlace().equals(lRole.getRequestPlace())) {
-                    return ResponseEntity.failure("请求地址不正确!");
+                if (StringUtils.isNotEmpty(lRole.getRequestPlace())) {
+                    if (!secutityUser.getRequestPlace().equals(lRole.getRequestPlace())) {
+                        return ResponseEntity.failure("请求地址不正确!");
+                    }
                 }
-            }
-            if (StringUtils.isNotEmpty(lRole.getAge())) {
-                if (!secutityUser.getAge().equals(lRole.getAge())) {
-                    return ResponseEntity.failure("年龄不正确!");
+                if (StringUtils.isNotEmpty(lRole.getAge())) {
+                    if (!secutityUser.getAge().equals(lRole.getAge())) {
+                        return ResponseEntity.failure("年龄不正确!");
+                    }
                 }
-            }
-            if (StringUtils.isNotEmpty(lRole.getTel())) {
-                if (!secutityUser.getTel().equals(lRole.getTel())) {
-                    return ResponseEntity.failure("电话号码不正确!");
+                if (StringUtils.isNotEmpty(lRole.getTel())) {
+                    if (!secutityUser.getTel().equals(lRole.getTel())) {
+                        return ResponseEntity.failure("电话号码不正确!");
+                    }
                 }
-            }
-            if (StringUtils.isNotEmpty( lRole.getEmail())) {
-                if (!secutityUser.getEmail().equals(lRole.getEmail())) {
-                    return ResponseEntity.failure("邮箱地址不正确!");
-                }
+                if (StringUtils.isNotEmpty( lRole.getEmail())) {
+                    if (!secutityUser.getEmail().equals(lRole.getEmail())) {
+                        return ResponseEntity.failure("邮箱地址不正确!");
+                    }
 
+                }
+            } catch (Exception e) {
+                return ResponseEntity.failure("您输入的属性值不正确,请联系管理员!");
             }
             UsernamePasswordToken token = new UsernamePasswordToken(secutityUser.getLoginName(), "123456", Boolean.valueOf(rememberMe));
             try {

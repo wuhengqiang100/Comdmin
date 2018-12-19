@@ -10,91 +10,152 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="format-detection" content="telephone=no">
-    <link rel="stylesheet" th:href="@{/static/layui/css/layui.css}" media="all" />
+    <link rel="stylesheet" th:href="@{/static/layui/css/layui.css}" media="all"/>
     <style type="text/css">
-        .layui-form-item .layui-inline{ width:33.333%; float:left; margin-right:0; }
-        @media(max-width:1240px){
-            .layui-form-item .layui-inline{ width:100%; float:none; }
+        .layui-form-item .layui-inline {
+            width: 33.333%;
+            float: left;
+            margin-right: 0;
         }
+
+        @media (max-width: 1240px) {
+            .layui-form-item .layui-inline {
+                width: 100%;
+                float: none;
+            }
+        }
+
         .layui-form-item .role-box {
             position: relative;
         }
+
         .layui-form-item .role-box .jq-role-inline {
             height: 100%;
             overflow: auto;
         }
 
+        .nameTitle {
+            font-size: large;
+            font-style: inherit;
+        }
+
+        .titleSize {
+            font-size: 12px;
+            font-style: inherit;
+        }
+
     </style>
 </head>
 <body class="childrenBody">
-<form class="layui-form" style="width:80%;margin-top: 2%;">
-    <div class="layui-form-item">
-        <div class="layui-inline">
-            <label class="layui-form-label">登录名</label>
-            <div class="layui-input-block">
-                <input type="text" class="layui-input" name="loginName" lay-verify="required" placeholder="请输入登录名">
-            </div>
-        </div>
-        <div class="layui-inline">
-            <label class="layui-form-label">昵称</label>
-            <div class="layui-input-block">
-                <input type="text" class="layui-input" name="nickName" placeholder="请输入昵称">
-            </div>
-        </div>
-    </div>
-    <div class="layui-form-item">
-
-        <div class="layui-inline">
-            <label class="layui-form-label">邮箱</label>
-            <div class="layui-input-block">
-                <input type="text" class="layui-input" name="email" lay-verify="email" placeholder="请输入邮箱">
-            </div>
-        </div>
-        <div class="layui-inline">
-            <label class="layui-form-label">手机</label>
-            <div class="layui-input-block">
-                <input type="text" class="layui-input" name="tel" lay-verify="phone" placeholder="请输入手机号码">
-            </div>
-        </div>
-    </div>
-    <div class="layui-form-item">
-        <label class="layui-form-label">请求令牌</label>
-        <div class="layui-input-block role-box">
-            <div class="jq-role-inline">
-                <fieldset class="layui-elem-field">
-                    <legend>选择令牌</legend>
-                    <div class="layui-field-box" th:each="role : ${roleList}">
-                        <input type="checkbox" name="roles"  th:value="${role.id}" th:title="${role.name}" lay-filter="role" />
+<div class="layui-container">
+    <form class="layui-form" style="width:80%;">
+        <!--<input class="layui-hide" name="id" th:value="${localuser.id}"/>-->
+        <div class="layui-form-item">
+            <div class="layui-row">
+                <div class="layui-card">
+                    <!--<div class="layui-card-header">卡片面板</div>-->
+                    <div class="layui-card-body">
+                        <div class="layui-inline">
+                            <label class="layui-form-label  nameTitle">用户名</label>
+                            <div class="layui-input-block">
+                                <input type="text" class="layui-input" name="loginName" lay-verify="required" placeholder="请输入用户名">
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">昵称</label>
+                            <div class="layui-input-block">
+                                <input type="text" class="layui-input" name="nickName" placeholder="请输入昵称">
+                            </div>
+                        </div>
                     </div>
-                </fieldset>
+                </div>
             </div>
         </div>
-    </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label nameTitle">用户属性</label>
+            <div class="layui-input-block role-box">
+                <div class="jq-role-inline">
+                    <fieldset class="layui-elem-field">
+                        <legend style="font-size: small">访问属性</legend>
+                        <!--<div class="layui-card-header">访问属性</div>-->
+                        <div class="layui-card-body" style="margin-top: 10px">
+                            <div class="layui-inline">
+                                <label class="layui-form-label">身份</label>
+                                <div class="layui-input-block">
+                                    <input type="text" class="layui-input" name="identity" placeholder="请输入是身份">
+                                </div>
+                            </div>
+                            <div class="layui-inline">
+                                <label class="layui-form-label">请求地址</label>
+                                <div class="layui-input-block">
+                                    <input type="text" class="layui-input" name="requestPlace" placeholder="请输入是地址">
+                                </div>
+                            </div>
+                            <div class="layui-inline">
+                                <label class="layui-form-label">手机</label>
+                                <div class="layui-input-block">
+                                    <input type="text" class="layui-input" name="tel" lay-verify="phone" placeholder="请输入手机号码">
+                                </div>
+                            </div>
+                            <div class="layui-inline">
+                                <label class="layui-form-label">邮箱</label>
+                                <div class="layui-input-block">
+                                    <input type="text" class="layui-input" name="email" lay-verify="email" placeholder="请输入邮箱">
+                                </div>
+                            </div>
+                            <div class="layui-inline">
+                                <label class="layui-form-label">年龄</label>
+                                <div class="layui-input-block">
+                                    <input type="text" class="layui-input" name="age" lay-verify="number" placeholder="请输入年龄">
+                                </div>
+                            </div>
+                        </div>
 
-    <div class="layui-form-item">
-        <div class="layui-inline">
-            <label class="layui-form-label">用户类型</label>
-            <div class="layui-input-block">
-                <input type="checkbox" th:id="adminUser"  name="adminUser" th:value="true" lay-filter="adminUser" lay-skin="switch" value="true"  lay-text="后台用户|前台用户" checked/>
+                    </fieldset>
+                </div>
             </div>
         </div>
-        <div class="layui-inline">
-            <label class="layui-form-label">是否启用</label>
-            <div class="layui-input-block">
-                <input type="checkbox" th:id="locked" name="locked" th:value="true" lay-skin="switch"  lay-filter="locked"  lay-text="启用|停用" checked>
+        <div class="layui-form-item">
+            <label class="layui-form-label nameTitle">用户令牌</label>
+            <div class="layui-input-block role-box">
+                <div class="jq-role-inline">
+                    <fieldset class="layui-elem-field">
+                        <legend style="font-size: small">选择令牌</legend>
+                        <div class="layui-field-box layui-inline" th:each="role : ${roleList}">
+                            <div class="layui-input-block">
+                                <input type="checkbox" name="roles" th:value="${role.id}" th:title="${role.name}" lay-filter="role"/>
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
             </div>
         </div>
-    </div>
-
-    <shiro:hasPermission name="sys:user:add">
-    <div class="layui-form-item">
-        <div class="layui-input-block">
-            <button class="layui-btn" lay-submit="" lay-filter="addUser">立即提交</button>
-            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label nameTitle">用户类型</label>
+                <div class="layui-input-block">
+                    <input type="checkbox" th:id="adminUser" name="adminUser" th:value="true" lay-filter="adminUser" lay-skin="switch" value="true"
+                           lay-text="后台用户|前台用户" checked/>
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label nameTitle">是否启用</label>
+                <div class="layui-input-block">
+                    <input type="checkbox" th:id="locked" name="locked" th:value="true" lay-skin="switch" lay-filter="locked" lay-text="启用|停用"
+                           checked>
+                </div>
+            </div>
         </div>
-    </div>
-    </shiro:hasPermission>
-</form>
+        <shiro:hasPermission name="sys:user:add">
+            <div class="layui-form-item">
+                <div class="layui-input-block" style="text-align: center">
+                    <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                    <button class="layui-btn" lay-submit="" lay-filter="addUser">立即提交</button>
+                </div>
+            </div>
+        </shiro:hasPermission>
+    </form>
+</div>
 <script type="text/javascript" th:src="@{/static/layui/layui.js}"></script>
 <script type="text/javascript" th:src="@{/static/admin/js/user/userAdd.js}"></script>
 </body>

@@ -43,7 +43,7 @@ layui.use(['form','jquery','layer'],function(){
             success:function(res){
                 layer.close(loadIndex);
                 if(res.success){
-                    parent.layer.msg("用户编辑成功！",{time:1500},function(){
+                    parent.layer.msg("用户修改成功！",{time:1500},function(){
                         parent.location.reload();
                     });
                 }else{
@@ -52,6 +52,9 @@ layui.use(['form','jquery','layer'],function(){
             }
         });
         return false;
+    });
+    $(".dontEdit").click(function(){
+        parent.location.reload();
     });
 
     form.on('switch(adminUser)', function(data){

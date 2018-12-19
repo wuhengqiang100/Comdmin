@@ -26,6 +26,17 @@ public class Message extends DataEntity<Message> {
     @TableField("sendTime")
     private Date sendTime;
 
+    @TableField(exist=false)
+    private User fromUser;
+
+    public User getFromUser() {
+        return fromUser;
+    }
+
+    public void setFromUser(User fromUser) {
+        this.fromUser = fromUser;
+    }
+
     public String getIsLook() {
         return isLook;
     }
