@@ -12,6 +12,7 @@
     <meta name="format-detection" content="telephone=no">
     <link rel="stylesheet" th:href="@{/static/layui/css/layui.css}" media="all"/>
     <link rel="stylesheet" href="//at.alicdn.com/t/font_tnyc012u2rlwstt9.css" media="all"/>
+    <link rel="stylesheet" href="//at.alicdn.com/t/font_974748_wjk5z1f6gsl.css" media="all"/>
     <!--<link rel="stylesheet" th:href="@{/static/admin/css/main.css}" media="all" />-->
     <link rel="stylesheet" th:href="@{/static/admin/css/admin.css}" media="all"/>
     <link rel="stylesheet" th:href="@{/static/fonts/iconfont.css}" media="all"/>
@@ -28,7 +29,7 @@
                     <li class="col-sm-12 col-md-4 col-xs-12">
                         <a href="javascript:;" class="clearfix">
                             <div class="icon-bg bg-org f-l">
-                                <span class="iconfont">&#xe606;</span>
+                                <span class="iconfont">&#xe6a2;</span>
                             </div>
                             <div class="right-text-con">
                                 <p class="name">温度</p>
@@ -39,7 +40,7 @@
                     <li class="col-sm-12 col-md-4 col-xs-12">
                         <a href="javascript:;" class="clearfix">
                             <div class="icon-bg bg-blue f-l">
-                                <span class="iconfont">&#xe602;</span>
+                                <span class="iconfont">&#xe63b;</span>
                             </div>
                             <div class="right-text-con">
                                 <p class="name">湿度</p>
@@ -50,7 +51,7 @@
                     <li class="col-sm-12 col-md-4 col-xs-12">
                         <a href="javascript:;" class="clearfix">
                             <div class="icon-bg bg-green f-l">
-                                <span class="iconfont">&#xe605;</span>
+                                <span class="iconfont">&#xe609;</span>
                             </div>
                             <div class="right-text-con">
                                 <p class="name">光照</p>
@@ -62,6 +63,7 @@
             </div>
             <!--图表-->
             <div class="chart-panel panel panel-default">
+                <button class="layui-btn layui-btn-sm layui-btn-radius layui-btn-danger allSee">全屏图表</button>
                 <div class="panel-body" id="chart" style="height: 376px;">
                 </div>
             </div>
@@ -102,12 +104,12 @@
                 <div class="panel-header">最新消息</div>
                 <div class="panel-body">
                     <div class="commentbox">
-                        <ul class="commentList" th:each="message:${session.messageList}">
+                        <ul class="commentList" th:each="message:${messageList}">
                             <li class="item cl"><a href="#"><i class="avatar size-L radius"><img alt="" src="http://static.h-ui.net/h-ui/images/ucnter/avatar-default.jpg"></i></a>
                                 <div class="comment-main">
                                     <header class="comment-header">
-                                        <div class="comment-meta"><a class="comment-author" href="#" th:text="${message.fromUser.getNickName()}"></a> 评论于
-                                            <time th:datetime="${message.sendTime}"></time>
+                                        <div class="comment-meta"><a class="comment-author" style="font-style: inherit;font-weight: 700;" href="#" th:text="${message.fromUser.getNickName()}"></a> 评论于
+                                            <time th:text="${#dates.format(message.sendTime,'yyyy-MM-dd HH:mm:ss')}"></time>
                                         </div>
                                     </header>
                                     <div class="comment-body">
@@ -126,14 +128,15 @@
             <div class="panel panel-default contact-panel">
                 <div class="panel-header">联系我们</div>
                 <div class="panel-body">
-                    <p>QQ：1465465646</p>
-                    <p>E-mail:4565564@qq.com</p>
+                    <p>tel：<span th:text="${currentUser.tel}">110</span></p>
+                    <p>E-mail<span th:text="${currentUser.email}">110</span></p>
                 </div>
             </div>
         </div>
     </div>
 </div>
 <script type="text/javascript" th:src="@{/static/layui/layui.js}"></script>
+<script type="text/javascript" th:src="@{//at.alicdn.com/t/font_974748_wjk5z1f6gsl.js}"></script>
 <script type="text/javascript" th:src="@{/static/admin/js/main.js}"></script>
 <script type="text/javascript" th:src="@{/static/echarts/echarts.common.min.js}"></script>
 </body>

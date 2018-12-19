@@ -20,7 +20,7 @@ layui.use(['layer','form','table'], function() {
         width: $(parent.window).width()-223,
         cols: [[
             {type:'checkbox'},
-            // {field:'loginName', title: '登录名称', width:'10%'},
+            /*{field:'loginName', title: '登录名称', width:'10%'},*/
             {field:'nickName',  title: '昵称',    width:'8%'},
             {field:'identity',  title: '身份',    width:'8%'},
             {field:'requestPlace',  title: '请求地址',    width:'8%'},
@@ -30,7 +30,7 @@ layui.use(['layer','form','table'], function() {
             {field:'adminUser', title: '用户类型', width:'8%',templet:'#userType'},
             {field:'locked',    title: '状态',width:'10%',templet:'#userStatus'},
             {field:'createDate',  title: '创建时间',width:'14%', templet:'<span>{{ layui.laytpl.toDateString(d.createDate) }}</span>'}, //单元格内容水平居中
-            {fixed: 'right', align: 'center', toolbar: '#userBar'}
+            {fixed: 'right', align: 'center', toolbar: '#userBar',title:'操作'}
         ]]
     };
     table.render(t);

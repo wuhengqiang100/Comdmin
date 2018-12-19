@@ -8,6 +8,16 @@ layui.use(['form', 'element', 'layer', 'jquery'], function () {
     $(function(){
 
     }*/
+    $(".allSee").click(function () {
+        //弹出即全屏
+        var index = layer.open({
+            type: 2,
+            content: 'http://layim.layui.com',
+            area: ['320px', '195px'],
+            maxmin: true
+        });
+        layer.full(index);
+    });
 
 
     // 基于准备好的dom，初始化echarts实例

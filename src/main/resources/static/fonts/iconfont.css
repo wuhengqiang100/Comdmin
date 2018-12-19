@@ -6,6 +6,14 @@
   url('iconfont.ttf?t=1490337422326') format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+*/
   url('iconfont.svg?t=1490337422326#iconfont') format('svg'); /* iOS 4.1- */
 }
+@font-face {
+  font-family: 'iconfont';  /* project id 974748 */
+  src: url('//at.alicdn.com/t/font_974748_wjk5z1f6gsl.eot');
+  src: url('//at.alicdn.com/t/font_974748_wjk5z1f6gsl.eot?#iefix') format('embedded-opentype'),
+  url('//at.alicdn.com/t/font_974748_wjk5z1f6gsl.woff') format('woff'),
+  url('//at.alicdn.com/t/font_974748_wjk5z1f6gsl.ttf') format('truetype'),
+  url('//at.alicdn.com/t/font_974748_wjk5z1f6gsl.svg#iconfont') format('svg');
+}
 
 .iconfont {
   font-family:"iconfont" !important;

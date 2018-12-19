@@ -127,9 +127,7 @@ public class LonginController {
 
     @GetMapping(value = "index")
     public String index(HttpSession session, @ModelAttribute(LOGIN_TYPE) String loginType) {
-        String userId = MySysUser.id();
-        List<Message>  messageList=messageMapper.selectMessageList(userId);
-        session.setAttribute("messageList",messageList);
+
         if (StringUtils.isBlank(loginType)) {
             LoginTypeEnum attribute = (LoginTypeEnum) session.getAttribute(LOGIN_TYPE);
             loginType = attribute == null ? loginType : attribute.name();
@@ -481,7 +479,13 @@ public class LonginController {
     }
 
     @GetMapping("admin/main")
-    public String main(ModelMap map) {
+    public String main( ModelMap modelMap) {
+        String userId = MySysUser.id();
+        List<Message>  messageList=messageMapper.selectMessageList(userId);
+        User currentUser=userService.findUserById(userId);
+//        session.setAttribute("messageList",messageList);
+        modelMap.put("messageList",messageList);
+        modelMap.put("currentUser",currentUser);
         return "admin/main";
     }
 

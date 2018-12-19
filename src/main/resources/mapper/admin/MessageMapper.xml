@@ -28,6 +28,6 @@
     <select id="selectMessageList" resultMap="MessageMap" parameterType="String">
         select tm.*,su.* from t_message tm
         LEFT JOIN sys_user su ON  tm.fromU=su.id
-        where toUser=#{toUser};
+        where tm.toUser=#{toUser} AND tm.isLook=0;
     </select>
 </mapper>

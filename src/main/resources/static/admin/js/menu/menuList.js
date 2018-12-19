@@ -21,7 +21,7 @@ layui.config({
         treeLinkage: false, //父级展开时是否自动展开所有子级
         cols: [[
             {type: 'numbers'},
-            {field: 'name', minWidth: 100, title: '权限名称'},
+            {field: 'name', width: '12%', title: '权限名称'},
             {field: 'icon', width: '8%',title: '图标',templet: function (d) {
                     if (d.icon == null) {
                         return '';
@@ -30,9 +30,9 @@ layui.config({
                 }
              },
             {field: 'href', title: '菜单url', width: '20%'},
-            {field: 'sort', width: '8%', align: 'center', title: '排序号'},
+            {field: 'sort', width: '10%', align: 'center', title: '排序号'},
             {
-                field: 'isShow', width: '8%', align: 'center', templet: function (d) {
+                field: 'isShow', width: '10%', align: 'center', templet: function (d) {
                     if (d.isShow) {
                         if(d.level == 1) {
                             return '<span class="layui-badge layui-bg-blue">目录</span>';
@@ -44,11 +44,11 @@ layui.config({
                     }
                 }, title: '类型'
             },
-            {templet: '#authBar', width: '30%', align: 'center', title: '操作'}
-        ]],
+            {templet: '#authBar', align: 'center', title: '操作'}
+        ]]/*,
         done: function () {
             layer.closeAll('loading');
-        }
+        }*/
     });
 
     function layuiresize(index) {
