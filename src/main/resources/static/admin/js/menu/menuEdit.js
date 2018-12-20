@@ -27,6 +27,10 @@ layui.use(['form','jquery','layer'],function(){
         layer.full(iconShow);
     });
 
+    $(".dontEdit").click(function(){
+        parent.location.reload();
+    });
+
     form.on("submit(editMenu)",function(data){
         if(data.field.id == null){
             layer.msg("菜单ID不存在",{time:1000});

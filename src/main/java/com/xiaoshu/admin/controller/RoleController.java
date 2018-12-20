@@ -12,6 +12,7 @@ import com.xiaoshu.admin.service.UserService;
 import com.xiaoshu.common.annotation.SysLog;
 import com.xiaoshu.common.base.PageData;
 import com.xiaoshu.common.util.ResponseEntity;
+import com.xiaoshu.common.util.RoleUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -132,18 +133,21 @@ public class RoleController {
     @RequiresPermissions("sys:role:edit")
     @PostMapping("edit")
     @ResponseBody
-    @SysLog("保存编辑角色数据")
+    @SysLog("保存编辑令牌数据")
     public ResponseEntity edit(@RequestBody Role role){
         if(StringUtils.isBlank(role.getId())){
-            return ResponseEntity.failure("角色ID不能为空");
+            return ResponseEntity.failure("令牌ID不能为空");
         }
         if(StringUtils.isBlank(role.getName())){
-            return ResponseEntity.failure("角色名称不能为空");
+            return ResponseEntity.failure("令牌名称不能为空");
+        }
+        if (!RoleUtil.threeRoleProperties(role)){
+            return ResponseEntity.failure("令牌属性最少为2个!");
         }
         Role oldRole = roleService.getRoleById(role.getId());
         if(!oldRole.getName().equals(role.getName())){
             if(roleService.getRoleNameCount(role.getName())>0){
-                return ResponseEntity.failure("角色名称已存在");
+                return ResponseEntity.failure("令牌名称已存在");
             }
         }
         roleService.updateRole(role);
@@ -153,10 +157,10 @@ public class RoleController {
     @RequiresPermissions("sys:role:delete")
     @PostMapping("delete")
     @ResponseBody
-    @SysLog("删除角色数据")
+    @SysLog("删除令牌数据")
     public ResponseEntity delete(@RequestParam(value = "id",required = false)String id){
         if(StringUtils.isBlank(id)){
-            return ResponseEntity.failure("角色ID不能为空");
+            return ResponseEntity.failure("令牌ID不能为空");
         }
         Role role = roleService.getRoleById(id);
         roleService.deleteRole(role);
@@ -166,10 +170,10 @@ public class RoleController {
     @RequiresPermissions("sys:role:delete")
     @PostMapping("deleteSome")
     @ResponseBody
-    @SysLog("多选删除角色数据")
+    @SysLog("多选删除令牌数据")
     public ResponseEntity deleteSome(@RequestBody List<Role> roles){
         if(roles == null || roles.size()==0){
-            return ResponseEntity.failure("请选择需要删除的角色");
+            return ResponseEntity.failure("请选择需要删除的令牌");
         }
         for (Role r : roles){
             roleService.deleteRole(r);

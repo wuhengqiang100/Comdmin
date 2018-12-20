@@ -32,9 +32,12 @@ layui.use(['form','jquery','layer'],function(){
         }
         form.render('checkbox');
     });
+    $(".dontEdit").click(function(){
+        parent.location.reload();
+    });
     form.on("submit(editRole)",function(data){
         if(data.field.id == null){
-            layer.msg("角色ID不存在");
+            layer.msg("令牌ID不存在");
             return false;
         }
         var menus = [];
@@ -59,15 +62,26 @@ layui.use(['form','jquery','layer'],function(){
             success:function(res){
                 layer.close(loadIndex);
                 if(res.success){
-                    parent.layer.msg("角色编辑成功！",{time:1000},function(){
+                    parent.layer.msg("令牌编辑成功！",{time:1000},function(){
                         //刷新父页面
                         parent.location.reload();
                     });
                 }else{
-                    layer.msg(res.message,{time:1000},function(){
+                    layer.confirm(res.message, {
+                        skin: 'layui-layer-molv'
+                        ,closeBtn: 1,
+                        icon: 3, title: '提示',
+                        btn: ['确定'] //按钮
+                    }, function(){
+                        layer.closeAll('dialog'); //关闭信息框
+                        location.reload();
+                    },function(){
+
+                    });
+                   /* layer.msg(res.message,{time:1000},function(){
                         //刷新本页面
                         location.reload();
-                    });
+                    });*/
 
                 }
             }

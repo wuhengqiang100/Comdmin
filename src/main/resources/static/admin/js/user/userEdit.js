@@ -9,7 +9,7 @@ layui.use(['form','jquery','layer'],function(){
             layer.msg("用户ID不存在");
             return false;
         }
-        //给角色赋值
+        //给令牌赋值
         delete data.field["roles"];
         var selectRole = [];
         $('input[name="roles"]:checked').each(function(){
@@ -47,7 +47,18 @@ layui.use(['form','jquery','layer'],function(){
                         parent.location.reload();
                     });
                 }else{
-                    layer.msg(res.message);
+                    layer.confirm(res.message, {
+                        skin: 'layui-layer-molv'
+                        ,closeBtn: 1,
+                        icon: 3, title: '提示',
+                        btn: ['确定'] //按钮
+                    }, function(){
+                        layer.closeAll('dialog'); //关闭信息框
+                        location.reload();
+                    },function(){
+
+                    });
+                    // layer.msg(res.message);
                 }
             }
         });

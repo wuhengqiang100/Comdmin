@@ -10,67 +10,137 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="format-detection" content="telephone=no">
-    <link rel="stylesheet" th:href="@{/static/layui/css/layui.css}" media="all" />
+    <link rel="stylesheet" th:href="@{/static/layui/css/layui.css}" media="all"/>
     <style type="text/css">
-        .layui-form-item .layui-inline{ min-width:15%; float:left; margin-right:0 }
+        .layui-form-item .layui-inline {
+            min-width: 15%;
+            float: left;
+            margin-right: 0
+        }
+
         .layui-form-item .role-box {
             position: relative;
         }
+        body {
+            margin: 0px;
+            padding: 0px;
+            background-color: #d2d2d2;
+        }
+
+        .layui-card {
+            margin-top: 10px;
+        }
+        .nameTitle{
+            font-size: large;
+            font-style: inherit;
+        }
     </style>
 </head>
-<body class="childrenBody">
-<form class="layui-form">
-   <input name="id" type="hidden" th:value="${role.id}">
-    <div class="layui-form-item">
-        <fieldset class="layui-elem-field layui-field-title" style="margin-top: 30px;margin-left: 10px;">
-            <legend>令牌名称(<span style="color:red">*</span>)</legend>
-        </fieldset>
-    </div>
-    <div class="layui-form-item">
-        <div class="layui-input-block" style="width: 80%">
-            <input type="text" class="layui-input" name="name" style="margin-top: 30px;" th:value="${role.name}" lay-verify="required" placeholder="请想一个角色名称">
-        </div>
-    </div>
-    <div class="layui-form-item">
-        <fieldset class="layui-elem-field layui-field-title" style="margin-top: 30px;margin-left: 10px;">
-            <legend>备注</legend>
-        </fieldset>
-    </div>
-    <div class="layui-form-item layui-form-text">
-        <div class="layui-input-block" style="width: 80%">
-            <textarea placeholder="一些可有可无的备注罢了.." name="remarks" class="layui-textarea" th:text="${role.remarks}"></textarea>
-        </div>
-    </div>
-    <div class="layui-form-item">
-        <fieldset class="layui-elem-field layui-field-title" style="margin-top: 30px;margin-left: 10px;">
-            <legend>请分配令牌权限</legend>
-        </fieldset>
-    </div>
-    <div class="layui-form-item">
-        <div class="layui-input-block">
-            <div class="layui-inline" th:each="menu : ${menuList}">
-                <fieldset class="layui-elem-field">
-                    <legend>
-                        <input type="checkbox" th:title="${menu.name}" th:value="${menu.id}"
-                               lay-filter="roleMenu" th:data-parentIds="${menu.parentIds}"
-                               th:checked="${#strings.contains(menuIds,menu.id)} ? checked "/>
-                    </legend>
-                    <div class="layui-field-box" th:include="/admin/role/menu::editMenuLi(${menu.children})">
+<body>
+<div class="layui-container">
+    <form class="layui-form">
+        <input name="id" type="hidden" th:value="${role.id}">
+        <div class="layui-row">
+            <div class="layui-row layui-col-space12">
+                <div class="layui-col-md5 layui-col-md-offset1">
+                    <div class="layui-card">
+                        <div class="layui-card-header nameTitle">令牌权限</div>
+                        <div class="layui-card-body">
+                            <div class="layui-row">
+                                <div class="layui-form-item">
+                                    <label class="layui-form-label">分配权限:</label>
+                                    <div class="layui-input-block">
+                                        <div class="layui-inline" th:each="menu : ${menuList}">
+                                            <fieldset class="layui-elem-field">
+                                                <legend>
+                                                    <input type="checkbox" th:title="${menu.name}" th:value="${menu.id}"
+                                                           lay-filter="roleMenu" th:data-parentIds="${menu.parentIds}"
+                                                           th:checked="${#strings.contains(menuIds,menu.id)} ? checked "/>
+                                                </legend>
+                                                <div class="layui-field-box" th:include="/admin/role/menu::editMenuLi(${menu.children})">
+                                                </div>
+                                            </fieldset>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                </fieldset>
+                </div>
+                <div class="layui-col-md5 layui-col-md-offset0.1">
+                    <div class="layui-card">
+                        <div class="layui-card-header nameTitle">令牌属性</div>
+                        <div class="layui-card-body">
+                            <div class="layui-row">
+                                <div class="layui-form-item">
+                                    <label class="layui-form-label">令牌名称:</label>
+                                    <div class="layui-input-block">
+                                        <input type="text" name="name" required lay-verify="required" th:value="${role.name}" placeholder="请输入名称"
+                                               autocomplete="off"
+                                               class="layui-input">
+                                    </div>
+                                </div>
+                                <div class="layui-form-item">
+                                    <label class="layui-form-label">令牌身份:</label>
+                                    <div class="layui-input-block">
+                                        <input type="text" class="layui-input" name="identity" th:value="${role.identity}" style="margin-top: 30px;"
+                                               placeholder="请输入身份">
+                                    </div>
+                                </div>
+                                <div class="layui-form-item">
+                                    <label class="layui-form-label">请求地点:</label>
+                                    <div class="layui-input-block">
+                                        <input type="text" class="layui-input" name="requestPlace" th:value="${role.requestPlace}"
+                                               style="margin-top: 30px;" placeholder="请输入请求地点">
+                                    </div>
+                                </div>
+                                <div class="layui-form-item">
+                                    <label class="layui-form-label">电话号码:</label>
+                                    <div class="layui-input-block">
+                                        <input type="tel" class="layui-input" name="tel" th:value="${role.tel}"
+                                               style="margin-top: 30px;"
+                                               placeholder="请输入电话号码">
+                                    </div>
+                                </div>
+                                <div class="layui-form-item">
+                                    <label class="layui-form-label">邮件地址:</label>
+                                    <div class="layui-input-block">
+                                        <input type="text" class="layui-input" name="email" th:value="${role.email}"
+                                               style="margin-top: 30px;"
+                                               placeholder="请想一个令牌名称">
+                                    </div>
+                                </div>
+                                <div class="layui-form-item">
+                                    <label class="layui-form-label">年纪要求:</label>
+                                    <div class="layui-input-block">
+                                        <input type="text" class="layui-input" name="age" th:value="${role.age}"
+                                               style="margin-top: 30px;"
+                                               placeholder="请输入年龄">
+                                    </div>
+                                </div>
+                                <div class="layui-form-item">
+                                    <label class="layui-form-label">备注说明:</label>
+                                    <div class="layui-input-block " style="margin-top: 30px;">
+                                        <textarea placeholder="一些可有可无的备注罢了.." name="remarks" th:value="${role.remarks}"
+                                                  class="layui-textarea"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <shiro:hasPermission name="sys:role:edit">
+                    <div class="layui-form-item" style="padding-left: 30%;">
+                        <div class="layui-input-block">
+                            <button class="layui-btn layui-btn-primary dontEdit">返回</button>
+                            <button class="layui-btn" lay-submit="" lay-filter="editRole">确定修改</button>
+                        </div>
+                    </div>
+                </shiro:hasPermission>
             </div>
         </div>
-    </div>
-
-    <shiro:hasPermission name="sys:role:edit">
-    <div class="layui-form-item" style="padding-left: 30%;">
-        <div class="layui-input-block">
-            <button class="layui-btn" lay-submit="" lay-filter="editRole">我要修改</button>
-            <button class="layui-btn layui-btn-primary">我不改了</button>
-        </div>
-    </div>
-    </shiro:hasPermission>
-</form>
+    </form>
+</div>
 <script type="text/javascript" th:src="@{/static/layui/layui.js}"></script>
 <script type="text/javascript" th:src="@{/static/admin/js/role/roleEdit.js}"></script>
 </body>

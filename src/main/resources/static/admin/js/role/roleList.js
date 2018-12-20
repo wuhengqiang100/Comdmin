@@ -27,7 +27,9 @@ layui.use(['layer','form','table'], function() {
             layer.full(editIndex);
         }
         if(obj.event === "del"){
-            layer.confirm("你确定要删除该令牌么？",{btn:['是的,我确定','我再想想']},
+            layer.confirm("你确定要删除该令牌么？",{ skin: 'layui-layer-molv'
+                    ,closeBtn: 1,
+                    icon: 3, title: '提示',btn:['是的,我确定','我再想想']},
                 function(){
                     $.post("/admin/system/role/delete",{"id":data.id},function (res){
                         if(res.success){
@@ -102,7 +104,9 @@ layui.use(['layer','form','table'], function() {
                 data = checkStatus.data;
             if(data.length > 0){
                 console.log(JSON.stringify(data));
-                layer.confirm("你确定要删除这些令牌么？",{btn:['是的,我确定','我再想想']},
+                layer.confirm("你确定要删除这些令牌么？",{ skin: 'layui-layer-molv'
+                        ,closeBtn: 1,
+                        icon: 3, title: '提示',btn:['是的,我确定','我再想想']},
                     function(){
                         var deleteindex = layer.msg('删除中，请稍候',{icon: 16,time:false,shade:0.8});
                         $.ajax({

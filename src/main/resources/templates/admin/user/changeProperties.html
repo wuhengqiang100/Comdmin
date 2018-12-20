@@ -57,7 +57,7 @@
                         </div>
                         <div class="layui-form-item">
                             <div class="layui-input-block">
-                               <!-- <button type="text" class="layui-btn layui-btn-primary returnClass">返回</button>-->
+                                <!--<button type="text" class="layui-btn layui-btn-primary returnClass">返回</button>-->
                                 <button class="layui-btn" lay-submit="" lay-filter="changePwd" style="text-align: center">修改属性</button>
                             </div>
                         </div>
@@ -91,9 +91,11 @@
                 }
             }
         });*/
-        $(".returnClass").click(function(){
-            parent.location.reload();
-        });
+
+       /* $(".returnClass").click(function(){
+            location.reload();
+        });*/
+
         form.on("submit(changePwd)",function(data){
             layer.confirm('修改个人属性,请联系管理员？', {
                 skin: 'layui-layer-molv'
@@ -116,30 +118,6 @@
                     btn: ['明白了', '知道了']
                 });*/
             });
-            return false;
-           /* layer.confirm('修改属性,请联系系统管理员!', {
-                /!*skin: 'layui-layer-molv' //样式类名
-                ,closeBtn: 0,*!/
-                btn: ['重要','奇葩'] //按钮
-            }, function(){
-                layer.msg('的确很重要', {icon: 1});
-            },function(){
-                layer.msg('也可以这样', {
-                    time: 20000, //20s后自动关闭
-                    btn: ['明白了', '知道了']
-                });
-            });*/
-         /*   $.post("/admin/system/user/changePassword",data.field,function(res){
-                if(res.success){
-                    layer.msg("密码修改成功,请重新登录",{"time":1000},function(){
-                        sessionStorage.clear();
-                        localStorage.clear();
-                        parent.location.href = "/systemLogout";
-                    })
-                }else{
-                    layer.msg(res.message);
-                }
-            });*/
             return false;
         });
     });

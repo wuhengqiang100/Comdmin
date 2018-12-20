@@ -31,4 +31,8 @@ public class Constants {
      *系统用户默认密码
      */
     public static final String DEFAULT_USERNAME = "ROOT";
+
+    public static final String SALT="39f283bb4e4b3a9b";
+
+    public static final String PASS_WORLD="284bca2f67907d5c758ec92643edfa6324cabcbb";
 }

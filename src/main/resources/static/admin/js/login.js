@@ -12,23 +12,6 @@ layui.use(['form', 'layer'], function () {
             data.field.rememberMe = false;
         }
 
-/*        $.ajax({
-            type:"POST",
-            url:data.form.action,
-            dataType:"json",
-            contentType:"application/json",
-            data:JSON.stringify(data.field),
-            success:function(res){
-                layer.close(loadIndex);
-                if(res.success){
-                    location.href = "/" + res.url;
-                }else{
-                    layer.msg(res.message);
-                    $("#randImage").click();
-                }
-            }
-        });*/
-
         $.post(data.form.action, data.field, function (res) {
             layer.close(loadIndex);
             if (res.success) {
@@ -55,17 +38,6 @@ layui.use(['form', 'layer'], function () {
 
     $("#regist").click(function () {
         location.href = "/toRegist";
-      /*  $.post("/forwordRegist", {}, function (res) {
-            // layer.close(loadIndex);
-            layer.msg(res);
-            if (res.success) {
-                layer.msg(res);
-                layer.msg(res.message);
-            } else {
-                layer.msg("请求失败!");
-                layer.msg(res.message);
-            }
-        }, 'json');*/
     });
 
     $(document).ready(function () {
@@ -81,39 +53,6 @@ layui.use(['form', 'layer'], function () {
         var loadIndex = layer.load(2, {shade: [0.3, '#333']});
         $.post("/admin/requestAll", {}, function (res) {
             layer.close(loadIndex);
-     /*
-            if(res.success()){
-                $("#insertForm").append("<div class=\"layui-form-item\"><input class=\"layui-input\" name=\"identity\" placeholder=\"访问身份\" lay-verify=\"required\" type=\"text\" autocomplete=\"off\"></div>");
-
-                $(".init").after("<option value='idList.get(i)'>nameList.get(i)</option>");
-               /!* for(var i=0;i<nameList.size();i++){
-                    $(".init").after
-                    $(".init").after("<option value='idList.get(i)'>nameList.get(i)</option>");
-                }*!/
-            }*/
-           /* if (res.success) {
-                /!* var list=res.roleList;
-                 for(var i=0;i<list.length;i++) {
-                     var name = list[i].name;
-                     var id = list[i].id;
-                     layer.msg(id);
-                     layer.msg(name);
-                     $('option').append(" <b>Hello world!</b>");
-                     // $("#first").append("<option value='2'>湿度</option>");
-                     // $("#first").appendTo("<option value=id>name</option>");
-                 }
-                 layer.msg("请求成功!");
-                 // layer.msg(res);*!/
-
-                /!* $("#first").after(" <div class=\"layui-form-item\">\n" +
-                     "            <input class=\"layui-input\" name=\"username\" placeholder=\"用户名\" lay-verify=\"required\" type=\"text\" autocomplete=\"off\">\n" +
-                     "        </div>")*!/
-                /!*$("#first").append("");
-                $("#first").appendTo("<option value='2'>温度2</option>");*!/
-            } else {
-                layer.msg("请求失败!");
-                layer.msg(res.message);
-            }*/
         }, 'json');
     };
 
@@ -126,9 +65,7 @@ layui.use(['form', 'layer'], function () {
         // var loadSelect = layer.load(2, {shade: [0.3, '#333']});
         if(valiTrue){
             $.post("/admin/request", {id: data.value}, function (res) {
-                // layer.close(loadIndex);
                 $("#insertForm").empty();
-                // layer.close(loadSelect);
                 if (res.success) {
                     //身份输入框
                     if (res.role.identity != null && res.role.identity!="") {

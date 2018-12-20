@@ -13,6 +13,7 @@
     <link rel="stylesheet" th:href="@{/static/layui/css/layui.css}" media="all"/>
     <link rel="stylesheet" th:href="@{/static/admin/css/login.css}" media="all"/>
 </head>
+
 <body>
 <div class="video_mask"></div>
 <div class="login">
@@ -21,31 +22,17 @@
         <div class="layui-inline">
             <label class="layui-form-label" style="font-size: large;color: white">选择请求:</label>
             <div class="layui-input-inline">
-                <select id="init" name="name" lay-filter="selected" lay-verify="required" lay-search="" >
+                <select id="init"  name="name" lay-filter="selected" lay-verify="required" lay-search="">
                     <option class="init"  value="1">直接选择或搜索选择</option>
                     <div th:each="aim : ${session.roleList}">
                         <option th:value="${aim.id}" th:text="${aim.name}"></option>
                     </div>
-                    <!--<option th:each="aim : ${session.roleList}"></option>-->
-
-
-                    <!--<option th:value="${aim.id}">th:text="${aim.name}"</option>-->
-                   <!-- <option value="70689483-9ad7-11e8-aebe-1368d4ec24eb">温度th:text="${aimName}"</option>
-                    <option value="706e0195-9ad7-11e8-aebe-1368d4ec24eb">湿度</option>
-                    <option value="a19aea12018d4cfc8d5dd03099be04ab">管理员</option>
-                    <option value="3">Co2浓度</option>-->
                 </select>
             </div>
         </div>
         <hr/>
 
         <div  id="insertForm"></div>
-        <!--<div class="layui-form-item">
-            <input class="layui-input" name="username" placeholder="用户名" lay-verify="required" type="text" autocomplete="off">
-        </div>-->
-        <!--    <div class="layui-form-item">
-                <input class="layui-input" name="password" placeholder="密码" lay-verify="required" type="password" autocomplete="off">
-            </div>-->
         <div class="layui-form-item form_code">
             <input class="layui-input" name="code" placeholder="验证码" lay-verify="required" type="text" autocomplete="off">
             <div class="code"><img th:src="@{/getCaptcha}" width="116" height="36" th:id="randImage"></div>

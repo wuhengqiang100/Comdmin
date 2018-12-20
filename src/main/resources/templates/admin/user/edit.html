@@ -41,188 +41,126 @@
             font-size: 12px;
             font-style: inherit;
         }
+        body {
+            margin: 0px;
+            padding: 0px;
+            background-color: #d2d2d2;
+        }
+
+        .layui-card {
+            margin-top: 10px;
+        }
     </style>
 </head>
-<body class="childrenBody">
+<body>
 <div class="layui-container">
-    <form class="layui-form" style="width:80%;">
+    <form class="layui-form">
         <input class="layui-hide" name="id" th:value="${localuser.id}"/>
-        <div class="layui-form-item">
-            <div class="layui-row">
-                <div class="layui-card">
-                    <!--<div class="layui-card-header">卡片面板</div>-->
-                    <div class="layui-card-body">
-                        <div class="layui-inline">
-                            <label class="layui-form-label  nameTitle">用戶名</label>
-                            <div class="layui-input-block">
-                                <input type="text" class="layui-input" name="loginName" placeholder="请输入用戶名" th:value="${localuser.loginName}">
+        <div class="layui-row">
+            <div class="layui-row layui-col-space12">
+                <div class="layui-col-md10 layui-col-md-offset1">
+                    <div class="layui-card">
+                        <div class="layui-card-header nameTitle">基本属性:</div>
+                        <div class="layui-card-body">
+                            <div class="layui-inline">
+                                <label class="layui-form-label">用户名</label>
+                                <div class="layui-input-block">
+                                    <input type="text" class="layui-input" name="loginName" placeholder="请输入用戶名" th:value="${localuser.loginName}">
+                                </div>
                             </div>
-                        </div>
-                        <div class="layui-inline">
-                            <label class="layui-form-label nameTitle">昵称</label>
-                            <div class="layui-input-block">
-                                <input type="text" class="layui-input" name="nickName" placeholder="请输入昵称" th:value="${localuser.nickName}">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="layui-form-item" >
-            <label class="layui-form-label nameTitle">用户属性</label>
-            <div class="layui-input-block role-box">
-                <div class="jq-role-inline">
-                    <fieldset class="layui-elem-field">
-                        <legend style="font-size: small">访问属性</legend>
-                    <!--<div class="layui-card-header">访问属性</div>-->
-                    <div class="layui-card-body" style="margin-top: 10px">
-                        <div class="layui-inline">
-                            <label class="layui-form-label">身份</label>
-                            <div class="layui-input-block">
-                                <input type="text" class="layui-input" name="identity" placeholder="请输入身份" th:value="${localuser.identity}">
-                            </div>
-                        </div>
-                        <div class="layui-inline">
-                            <label class="layui-form-label">请求地址</label>
-                            <div class="layui-input-block">
-                                <input type="text" class="layui-input" name="requestPlace" placeholder="请输入请求地址" th:value="${localuser.requestPlace}">
-                            </div>
-                        </div>
-                        <div class="layui-inline">
-                            <label class="layui-form-label">手机号码</label>
-                            <div class="layui-input-block">
-                                <input type="text" class="layui-input" name="tel"lay-verify="phone" placeholder="请输入手机号" th:value="${localuser.tel}">
-                            </div>
-                        </div>
-                        <div class="layui-inline">
-                            <label class="layui-form-label">邮箱地址</label>
-                            <div class="layui-input-block">
-                                <input type="text" class="layui-input" name="email" lay-verify="email" placeholder="请输入邮箱" th:value="${localuser.email}">
-                            </div>
-                        </div>
-                        <div class="layui-inline">
-                            <label class="layui-form-label">年龄</label>
-                            <div class="layui-input-block">
-                                <input type="text" class="layui-input" name="age" lay-verify="number" placeholder="请输入年龄" th:value="${localuser.age}">
+                            <div class="layui-inline">
+                                <label class="layui-form-label">昵称</label>
+                                <div class="layui-input-block">
+                                    <input type="text" class="layui-input" name="nickName" placeholder="请输入昵称" th:value="${localuser.nickName}">
+                                </div>
                             </div>
                         </div>
                     </div>
-
-                    </fieldset>
-                </div>
-            </div>
-        </div>
-        <div class="layui-form-item">
-            <label class="layui-form-label nameTitle">用户令牌</label>
-            <div class="layui-input-block role-box">
-                <div class="jq-role-inline">
-                    <fieldset class="layui-elem-field">
-                        <legend style="font-size: small">已有令牌</legend>
-                        <div class="layui-field-box layui-inline" th:each="role : ${roleList}">
-                            <div class="layui-input-block">
-                            <input type="checkbox" name="roles" th:value="${role.id}" th:title="${role.name}" lay-filter="role"
-                                   th:checked="${#strings.contains(roleIds,role.id)} ? checked"/>
+                    <div class="layui-card">
+                        <div class="layui-card-header   nameTitle">访问属性:</div>
+                        <div class="layui-card-body">
+                            <div class="layui-row">
+                                <div class="layui-inline">
+                                    <label class="layui-form-label">身份</label>
+                                    <div class="layui-input-block">
+                                        <input type="text" class="layui-input" name="identity" placeholder="请输入身份" th:value="${localuser.identity}">
+                                    </div>
+                                </div>
+                                <div class="layui-inline">
+                                    <label class="layui-form-label">访问地址</label>
+                                    <div class="layui-input-block">
+                                        <input type="text" class="layui-input" name="requestPlace" placeholder="请输入请求地址" th:value="${localuser.requestPlace}">
+                                    </div>
+                                </div>
+                                <div class="layui-inline">
+                                    <label class="layui-form-label">手机</label>
+                                    <div class="layui-input-block">
+                                        <input type="text" class="layui-input" name="tel"lay-verify="phone" placeholder="请输入手机号" th:value="${localuser.tel}">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="layui-row" style="margin-top: 5px">
+                                <div class="layui-inline">
+                                    <label class="layui-form-label">邮箱</label>
+                                    <div class="layui-input-block">
+                                        <input type="text" class="layui-input" name="email" lay-verify="email" placeholder="请输入邮箱" th:value="${localuser.email}">
+                                    </div>
+                                </div>
+                                <div class="layui-inline">
+                                    <label class="layui-form-label">年龄</label>
+                                    <div class="layui-input-block">
+                                        <input type="text" class="layui-input" name="age" lay-verify="number" placeholder="请输入年龄" th:value="${localuser.age}">
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                    </fieldset>
+                    </div>
+                    <div class="layui-card">
+                        <div class="layui-card-header   nameTitle">用户令牌:</div>
+                        <div class="layui-card-body">
+                            <div class="layui-inline">
+                                <div class="layui-field-box layui-inline" th:each="role : ${roleList}">
+                                    <div class="layui-input-block">
+                                        <input type="checkbox" name="roles" th:value="${role.id}" th:title="${role.name}" lay-filter="role"
+                                               th:checked="${#strings.contains(roleIds,role.id)} ? checked"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-card">
+                        <div class="layui-card-header   nameTitle">其他属性:</div>
+                        <div class="layui-card-body">
+                            <div class="layui-inline">
+                                <label class="layui-form-label">用户类型</label>
+                                <div class="layui-input-block">
+                                    <input type="checkbox" th:id="adminUser" name="adminUser" lay-filter="adminUser" lay-skin="switch" lay-text="后台用户|前台用户"
+                                           th:value="${localuser.adminUser}" th:checked="(${localuser.adminUser}) ? checked"/>
+                                </div>
+                            </div>
+                            <div class="layui-inline">
+                                <label class="layui-form-label">是否启用</label>
+                                <div class="layui-input-block">
+                                    <input type="checkbox" th:id="locked" name="locked" lay-filter="locked" lay-skin="switch" lay-text="启用|停用"
+                                           th:value="${localuser.locked}" th:checked="(${localuser.locked} == false) ? checked"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <shiro:hasPermission name="sys:user:add">
+                        <div class="layui-form-item">
+                            <div class="layui-input-block" style="margin-left: 0px;text-align: center">
+                                <button class="layui-btn layui-btn-primary dontEdit">返回</button>
+                                <button class="layui-btn" lay-submit="" lay-filter="editUser">确认修改</button>
+                            </div>
+                        </div>
+                    </shiro:hasPermission>
                 </div>
-            </div>
-        </div>
-        <div class="layui-form-item">
-            <div class="layui-inline">
-                <label class="layui-form-label nameTitle">用户类型</label>
-                <div class="layui-input-block">
-                    <input type="checkbox" th:id="adminUser" name="adminUser" lay-filter="adminUser" lay-skin="switch" lay-text="后台用户|前台用户"
-                           th:value="${localuser.adminUser}" th:checked="(${localuser.adminUser}) ? checked"/>
-                </div>
-            </div>
-            <div class="layui-inline">
-                <label class="layui-form-label nameTitle">是否启用</label>
-                <div class="layui-input-block">
-                    <input type="checkbox" th:id="locked" name="locked" lay-filter="locked" lay-skin="switch" lay-text="启用|停用"
-                           th:value="${localuser.locked}" th:checked="(${localuser.locked} == false) ? checked"/>
-                </div>
-            </div>
-        </div>
-        <shiro:hasPermission name="sys:user:edit">
-            <div class="layui-form-item" style="text-align: center">
-                    <button class="layui-btn layui-btn-primary dontEdit">返回</button>
 
-                    <button class="layui-btn" lay-submit="" lay-filter="editUser">确认修改</button>
             </div>
-        </shiro:hasPermission>
+        </div>
     </form>
 </div>
-<!--<form class="layui-form" style="width:80%;">
-    <input class="layui-hide" name="id" th:value="${localuser.id}"/>
-    &lt;!&ndash;  <div class="layui-form-item">
-          <label class="layui-form-label">登录名</label>
-          <div class="layui-input-block">
-              <input type="text" class="layui-input" name="loginName" lay-verify="required" placeholder="请输入登录名" th:value="${localuser.loginName}">
-          </div>
-      </div>&ndash;&gt;
-    <div class="layui-form-item" style="margin-top: 10px;">
-        <div class="layui-inline">
-            <label class="layui-form-label">昵称</label>
-            <div class="layui-input-block">
-                <input type="text" class="layui-input" name="nickName" placeholder="请输入昵称" th:value="${localuser.nickName}">
-            </div>
-        </div>
-        <div class="layui-inline">
-            <label class="layui-form-label">邮箱</label>
-            <div class="layui-input-block">
-                <input type="text" class="layui-input" name="email" lay-verify="email" placeholder="请输入邮箱" th:value="${localuser.email}">
-            </div>
-        </div>
-        <div class="layui-inline">
-            <label class="layui-form-label">手机</label>
-            <div class="layui-input-block">
-                <input type="text" class="layui-input" name="tel" lay-verify="phone" placeholder="请输入手机号" th:value="${localuser.tel}">
-            </div>
-        </div>
-    </div>
-
-    <div class="layui-form-item">
-        <label class="layui-form-label">用户令牌</label>
-        <div class="layui-input-block role-box">
-            <div class="jq-role-inline">
-                <fieldset class="layui-elem-field">
-                    <legend>选择令牌</legend>
-                    <div class="layui-field-box" th:each="role : ${roleList}">
-                        <input type="checkbox" name="roles" th:value="${role.id}" th:title="${role.name}" lay-filter="role"
-                               th:checked="${#strings.contains(roleIds,role.id)} ? checked"/>
-                    </div>
-                </fieldset>
-            </div>
-        </div>
-    </div>
-
-    <div class="layui-form-item">
-        <div class="layui-inline">
-            <label class="layui-form-label">用户类型</label>
-            <div class="layui-input-block">
-                <input type="checkbox" th:id="adminUser" name="adminUser" lay-filter="adminUser" lay-skin="switch" lay-text="后台用户|前台用户"
-                       th:value="${localuser.adminUser}" th:checked="(${localuser.adminUser}) ? checked"/>
-            </div>
-        </div>
-        <div class="layui-inline">
-            <label class="layui-form-label">是否启用</label>
-            <div class="layui-input-block">
-                <input type="checkbox" th:id="locked" name="locked" lay-filter="locked" lay-skin="switch" lay-text="启用|停用"
-                       th:value="${localuser.locked}" th:checked="(${localuser.locked} == false) ? checked"/>
-            </div>
-        </div>
-    </div>
-
-    <shiro:hasPermission name="sys:user:edit">
-        <div class="layui-form-item">
-            <div class="layui-input-block">
-                <button class="layui-btn" lay-submit="" lay-filter="editUser">我要修改</button>
-                &lt;!&ndash;<button class="layui-btn layui-btn-primary ">我不改了</button>&ndash;&gt;
-            </div>
-        </div>
-    </shiro:hasPermission>
-</form>-->
 <script type="text/javascript" th:src="@{/static/layui/layui.js}"></script>
 <script type="text/javascript" th:src="@{/static/admin/js/user/userEdit.js}"></script>
 </body>

@@ -4,6 +4,7 @@ import com.google.code.kaptcha.impl.DefaultKaptcha;
 import com.xiaoshu.admin.entity.Message;
 import com.xiaoshu.admin.entity.Role;
 import com.xiaoshu.admin.entity.User;
+import com.xiaoshu.admin.entity.UserRegist;
 import com.xiaoshu.admin.entity.vo.ShowMenuVo;
 import com.xiaoshu.admin.mapper.MessageMapper;
 import com.xiaoshu.admin.mapper.UserMapper;
@@ -39,6 +40,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.sql.Wrapper;
 import java.time.LocalDate;
 import java.util.*;
 
@@ -420,7 +422,7 @@ public class LonginController {
     @PostMapping("admin/regist")
     @SysLog("用户注册,填写属性")
     @ResponseBody
-    public ResponseEntity adminRegist(User user, HttpServletRequest request) {
+    public ResponseEntity adminRegist(UserRegist user, HttpServletRequest request) {
         String nickName = request.getParameter("nickName");
         String tel = request.getParameter("tel");
         String email = request.getParameter("email");
@@ -428,6 +430,12 @@ public class LonginController {
         String requestPlace = request.getParameter("requestPlace");
         String age = request.getParameter("age");
         String code = request.getParameter("code");
+        List<User> listUser=userMapper.findAllUser();
+        for(User aUser:listUser){
+            if (aUser.getLoginName().equals(nickName)){
+                return ResponseEntity.failure("该用户名已用,请换一个");
+            }
+        }
         if (StringUtils.isBlank(nickName)) {
             return ResponseEntity.failure("昵称不能为空");
         } else if (StringUtils.isBlank(tel)) {
@@ -440,6 +448,12 @@ public class LonginController {
             return ResponseEntity.failure("常用请求地址不能为空");
         } else if (StringUtils.isBlank(code)) {
             return ResponseEntity.failure("验证码不能为空");
+        } else if (StringUtils.isBlank(age)) {
+            return ResponseEntity.failure("年龄不能为空");
+        }else if (Integer.parseInt(age)-18<0) {
+            return ResponseEntity.failure("年龄必须在18--60岁之间");
+        }else if (60-Integer.parseInt(age)<0) {
+            return ResponseEntity.failure("年龄必须在18--60岁之间");
         }
         HttpSession session = request.getSession();
         if (session == null) {
@@ -454,11 +468,14 @@ public class LonginController {
         } else {
             //保存用户操作
             ResponseEntity responseEntity = new ResponseEntity();
-            user.setLoginName(Constants.DEFAULT_USERNAME);
-            user.setPassword(Constants.DEFAULT_PASSWORD);
+            user.setLoginName(nickName);
+            user.setPassword(Constants.PASS_WORLD);
+            user.setSalt(Constants.SALT);
             user.setAdminUser(true);
             user.setLocked(false);
+            user.setId(session.getId());
             try {
+//                userService.save(user);
                 userMapper.insertUserRegist(user);
 //                userService.save(user);
                 if (StringUtils.isBlank(user.getId())) {
@@ -477,6 +494,7 @@ public class LonginController {
         }
 
     }
+
 
     @GetMapping("admin/main")
     public String main( ModelMap modelMap) {

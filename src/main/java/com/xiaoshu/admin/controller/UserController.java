@@ -17,6 +17,7 @@ import com.xiaoshu.common.config.MySysUser;
 import com.xiaoshu.common.util.Constants;
 import com.xiaoshu.common.util.Encodes;
 import com.xiaoshu.common.util.ResponseEntity;
+import com.xiaoshu.common.util.RoleUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.web.session.HttpServletSession;
@@ -33,6 +34,7 @@ import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Controller
@@ -121,6 +123,15 @@ public class UserController {
         if(StringUtils.isBlank(user.getId())){
             return ResponseEntity.failure("保存用户信息出错");
         }
+        Set<Role> roleSet=user.getRoleLists();
+        Boolean allContrast=true;
+        for (Role roleS:roleSet){
+            Role role=roleService.getRoleById(roleS.getId());
+            allContrast=RoleUtil.contrastRoleAndProperties(role,user);
+            if (allContrast){
+                return ResponseEntity.failure("该用户属性不满足"+role.getName()+"令牌的属性值,请确认后再分配令牌!");
+            }
+        }
         //保存用户角色关系
         userService.saveUserRoles(user.getId(),user.getRoleLists());
         return ResponseEntity.success("操作成功");
@@ -162,6 +173,7 @@ public class UserController {
                 }
             }
         }
+
         if(StringUtils.isNotBlank(user.getLoginName())){
             if(!user.getLoginName().equals(oldUser.getLoginName())) {
                 if (userService.userCount(user.getLoginName()) > 0) {
@@ -176,6 +188,16 @@ public class UserController {
                 }
             }
         }
+        Set<Role> roleSet=user.getRoleLists();
+        Boolean allContrast=true;
+        for (Role roleS:roleSet){
+            Role role=roleService.getRoleById(roleS.getId());
+            allContrast=RoleUtil.contrastRoleAndProperties(role,user);
+            if (allContrast){
+                return ResponseEntity.failure("该用户属性不满足"+role.getName()+"令牌的属性值,请确认后再分配令牌!");
+            }
+        }
+
         user.setIcon(oldUser.getIcon());
         userService.updateUser(user);
 

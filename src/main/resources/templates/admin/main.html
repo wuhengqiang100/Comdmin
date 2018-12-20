@@ -126,11 +126,11 @@
             </div>
             <!--联系-->
             <div class="panel panel-default contact-panel">
-                <div class="panel-header">联系我们</div>
+                <div class="panel-header">联系:<span th:text="${currentUser.nickName}">110</span></div>
                 <div class="panel-body">
-                    <p>tel：<span th:text="${currentUser.tel}">110</span></p>
-                    <p>E-mail<span th:text="${currentUser.email}">110</span></p>
-                </div>
+                <p>tel：<span th:text="${currentUser.tel}">110</span></p>
+                <p>E-mail<span th:text="${currentUser.email}">110</span></p>
+            </div>
             </div>
         </div>
     </div>
