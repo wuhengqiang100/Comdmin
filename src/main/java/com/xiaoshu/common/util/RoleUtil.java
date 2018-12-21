@@ -32,26 +32,32 @@ public class RoleUtil{
         return isTrue;
     }
 
+    /**
+     * 分配令牌是判断用户属性值是否符合
+     * @param role
+     * @param user
+     * @return
+     */
     public static Boolean contrastRoleAndProperties(Role role,User user){
         Boolean isTrue=true;
-        if (StringUtils.isNotEmpty(role.getIdentity())){
+        if (StringUtils.isNotBlank(role.getIdentity())){
             if(!StringUtils.equals(role.getIdentity(),user.getIdentity())){
                 isTrue=false;
             }
         }
-        if (StringUtils.isNotEmpty(role.getRequestPlace())){
+        if (StringUtils.isNotBlank(role.getRequestPlace())){
             if(!StringUtils.equals(role.getRequestPlace(),user.getRequestPlace())){
                 isTrue=false;
             }
-        } if (StringUtils.isNotEmpty(role.getTel())){
+        } if (StringUtils.isNotBlank(role.getTel())){
             if(!StringUtils.equals(role.getTel(),user.getTel())){
                 isTrue=false;
             }
-        } if (StringUtils.isNotEmpty(role.getEmail())){
+        } if (StringUtils.isNotBlank(role.getEmail())){
             if(!StringUtils.equals(role.getEmail(),user.getEmail())){
                 isTrue=false;
             }
-        } if (StringUtils.isNotEmpty(role.getAge())){
+        } if (StringUtils.isNotBlank(role.getAge())){
             if(!StringUtils.equals(role.getAge(),user.getAge())){
                 isTrue=false;
             }

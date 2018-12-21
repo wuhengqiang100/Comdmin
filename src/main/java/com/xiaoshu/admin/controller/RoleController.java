@@ -101,13 +101,13 @@ public class RoleController {
     @RequiresPermissions("sys:role:add")
     @PostMapping("add")
     @ResponseBody
-    @SysLog("保存新增角色数据")
+    @SysLog("保存新增令牌数据")
     public ResponseEntity add(@RequestBody Role role){
         if(StringUtils.isBlank(role.getName())){
-            return ResponseEntity.failure("角色名称不能为空");
+            return ResponseEntity.failure("令牌名称不能为空");
         }
         if(roleService.getRoleNameCount(role.getName())>0){
-            return ResponseEntity.failure("角色名称已存在");
+            return ResponseEntity.failure("令牌名称已存在");
         }
         roleService.saveRole(role);
         return ResponseEntity.success("操作成功");

@@ -71,6 +71,7 @@ public class UserController {
         Map map = WebUtils.getParametersStartingWith(request, "s_");
         PageData<User> userPageData = new PageData<>();
         QueryWrapper<User> userWrapper = new QueryWrapper<>();
+//        userWrapper.eq("del_flag",false);
         if(!map.isEmpty()){
             String type = (String) map.get("type");
             if(StringUtils.isNotBlank(type)) {
@@ -103,7 +104,7 @@ public class UserController {
             return ResponseEntity.failure("登录名不能为空");
         }
         if(user.getRoleLists() == null || user.getRoleLists().size() == 0){
-            return  ResponseEntity.failure("用户角色至少选择一个");
+            return  ResponseEntity.failure("用户令牌至少选择一个");
         }
         if(userService.userCount(user.getLoginName())>0){
             return ResponseEntity.failure("登录名称已经存在");
@@ -123,12 +124,13 @@ public class UserController {
         if(StringUtils.isBlank(user.getId())){
             return ResponseEntity.failure("保存用户信息出错");
         }
-        Set<Role> roleSet=user.getRoleLists();
+//        Set<Role> roleSet=user.getRoleLists();
         Boolean allContrast=true;
-        for (Role roleS:roleSet){
+        Set<Role> roleSetFrom=user.getRoleLists();
+        for (Role roleS:roleSetFrom){
             Role role=roleService.getRoleById(roleS.getId());
             allContrast=RoleUtil.contrastRoleAndProperties(role,user);
-            if (allContrast){
+            if (!allContrast){
                 return ResponseEntity.failure("该用户属性不满足"+role.getName()+"令牌的属性值,请确认后再分配令牌!");
             }
         }
@@ -188,12 +190,13 @@ public class UserController {
                 }
             }
         }
-        Set<Role> roleSet=user.getRoleLists();
+//        Set<Role> roleSet=user.getRoleLists();
         Boolean allContrast=true;
-        for (Role roleS:roleSet){
+        Set<Role> roleSetFrom=user.getRoleLists();
+        for (Role roleS:roleSetFrom){
             Role role=roleService.getRoleById(roleS.getId());
             allContrast=RoleUtil.contrastRoleAndProperties(role,user);
-            if (allContrast){
+            if (!allContrast){
                 return ResponseEntity.failure("该用户属性不满足"+role.getName()+"令牌的属性值,请确认后再分配令牌!");
             }
         }
