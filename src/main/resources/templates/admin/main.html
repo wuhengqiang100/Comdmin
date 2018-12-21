@@ -26,6 +26,7 @@
         <div class="welcome-left-container col-lg-9">
             <div class="data-show">
                 <ul class="clearfix">
+
                     <li class="col-sm-12 col-md-4 col-xs-12">
                         <a href="javascript:;" class="clearfix">
                             <div class="icon-bg bg-org f-l">
@@ -48,17 +49,17 @@
                             </div>
                         </a>
                     </li>
-                    <li class="col-sm-12 col-md-4 col-xs-12">
-                        <a href="javascript:;" class="clearfix">
-                            <div class="icon-bg bg-green f-l">
-                                <span class="iconfont">&#xe609;</span>
-                            </div>
-                            <div class="right-text-con">
-                                <p class="name">光照</p>
-                                <p><span class="color-green">221</span>数据<span class="iconfont">&#xe60f;</span></p>
-                            </div>
-                        </a>
-                    </li>
+                        <li class="col-sm-12 col-md-4 col-xs-12">
+                            <a href="javascript:;" class="clearfix">
+                                <div class="icon-bg bg-green f-l">
+                                    <span class="iconfont">&#xe609;</span>
+                                </div>
+                                <div class="right-text-con">
+                                    <p class="name">光照</p>
+                                    <p><span class="color-green">221</span>数据<span class="iconfont">&#xe60f;</span></p>
+                                </div>
+                            </a>
+                        </li>
                 </ul>
             </div>
             <!--图表-->
@@ -108,7 +109,7 @@
                             <li class="item cl"><a href="#"><i class="avatar size-L radius"><img alt="" src="http://static.h-ui.net/h-ui/images/ucnter/avatar-default.jpg"></i></a>
                                 <div class="comment-main">
                                     <header class="comment-header">
-                                        <div class="comment-meta"><a class="comment-author" style="font-style: inherit;font-weight: 700;" href="#" th:text="${message.fromUser.getNickName()}"></a> 评论于
+                                        <div class="comment-meta"><a class="comment-author" style="font-style: inherit;font-weight: 700;" href="#" th:text="${message.fromUser.nickName}"></a> 评论于
                                             <time th:text="${#dates.format(message.sendTime,'yyyy-MM-dd HH:mm:ss')}"></time>
                                         </div>
                                     </header>

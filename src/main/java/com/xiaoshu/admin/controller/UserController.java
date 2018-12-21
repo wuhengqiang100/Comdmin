@@ -235,9 +235,11 @@ public class UserController {
         User user = userService.getById(id);
         if(user == null){
             return ResponseEntity.failure("用户不存在");
-        }else if(user.getAdminUser()) {
+        }/*else if(user.getAdminUser()) {
             return ResponseEntity.failure("不能删除后台用户");
-        }
+        }*//*else if(user.getAdminUser()) {
+            return ResponseEntity.failure("不能删除后台用户");
+        }*/
         userService.deleteUser(user);
         return ResponseEntity.success("操作成功");
     }
@@ -251,11 +253,7 @@ public class UserController {
             return ResponseEntity.failure("请选择需要删除的用户");
         }
         for (User u : users){
-            if(u.getAdminUser()){
-                return ResponseEntity.failure("不能删除超级管理员");
-            }else{
                 userService.deleteUser(u);
-            }
         }
         return ResponseEntity.success("操作成功");
     }

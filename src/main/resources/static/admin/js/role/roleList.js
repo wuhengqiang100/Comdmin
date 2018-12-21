@@ -61,7 +61,7 @@ layui.use(['layer','form','table'], function() {
         cols: [[
             {type:'checkbox'},
            /* {field:'id',        title: 'ID'   },*/
-            {field:'name',        title: '令牌名称',width:'6%'   },
+            {field:'name',        title: '令牌名称',width:'10%'   },
             {field:'identity',    title: '请求身份',width:'8%'   },
             {field:'requestPlace',title: '请求地点',width:'8%'   },
             {field:'tel',         title: '手机号码',width:'10%'   },

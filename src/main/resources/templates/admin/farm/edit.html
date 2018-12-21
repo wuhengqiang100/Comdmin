@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <meta charset="utf-8">
+    <title>新增农田--系统农田管理</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" th:href="@{/static/layui/css/layui.css}" media="all"/>
+    <style type="text/css">
+        .layui-form-item .layui-inline {
+            min-width: 15%;
+            float: left;
+            margin-right: 0;
+        }
+
+        .layui-form-item .role-box {
+            position: relative;
+        }
+
+        body {
+            margin: 0px;
+            padding: 0px;
+            background-color: #d2d2d2;
+        }
+
+        .layui-card {
+            margin-top: 10px;
+        }
+        .nameTitle{
+            font-size: large;
+            font-style: inherit;
+        }
+    </style>
+</head>
+<body>
+<div class="layui-container">
+    <form class="layui-form">
+        <input name="id" type="hidden" th:value="${farm.id}">
+        <div class="layui-row">
+            <div class="layui-row layui-col-space12">
+                <div class="layui-col-md6 layui-col-md-offset3">
+                    <div class="layui-card">
+                        <div class="layui-card-header nameTitle">农田属性</div>
+                        <div class="layui-card-body">
+                            <div class="layui-row">
+                                <div class="layui-form-item">
+                                    <label class="layui-form-label">农田名称:</label>
+                                    <div class="layui-input-block">
+                                        <input type="text" name="name" th:value="${farm.name}" required lay-verify="required" placeholder="请输入名称" autocomplete="off"
+                                               class="layui-input">
+                                    </div>
+                                </div>
+                                <div class="layui-form-item">
+                                    <label class="layui-form-label">农田位置:</label>
+                                    <div class="layui-input-block">
+                                        <input type="text" class="layui-input" lay-verify="required" th:value="${farm.location}" name="location" style="margin-top: 30px;" placeholder="请输入位置">
+                                    </div>
+                                </div>
+                                <div class="layui-form-item">
+                                    <label class="layui-form-label">农田面积:</label>
+                                    <div class="layui-input-block">
+                                        <input type="text" class="layui-input" lay-verify="number" th:value="${farm.size}" name="size" style="margin-top: 30px;" placeholder="请输入面积">
+                                    </div>
+                                </div>
+                                <div class="layui-form-item">
+                                    <label class="layui-form-label">备注说明:</label>
+                                    <div class="layui-input-block" style="margin-top: 30px;">
+                                        <textarea placeholder="一些可有可无的备注罢了.." name="remarks" th:text="${farm.remarks}" class="layui-textarea"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <shiro:hasPermission name="farm:user:edit">
+                    <div class="layui-form-item" style="padding-left: 30%;">
+                        <div class="layui-input-block">
+                            <button type="reset" class="layui-btn layui-btn-primary dontEdit">返回</button>
+                            <button class="layui-btn" lay-submit="" lay-filter="editFarm">立即提交</button>
+                        </div>
+                    </div>
+                </shiro:hasPermission>
+            </div>
+        </div>
+    </form>
+</div>
+<script type="text/javascript" th:src="@{/static/layui/layui.js}"></script>
+<script type="text/javascript" th:src="@{/static/admin/js/farm/farmEdit.js}"></script>
+</body>
+</html>

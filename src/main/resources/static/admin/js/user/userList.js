@@ -124,13 +124,13 @@ layui.use(['layer','form','table'], function() {
             var checkStatus = table.checkStatus('userTable'),
                 data = checkStatus.data;
             if(data.length > 0){
-                for(var i=0;i<data.length;i++){
+              /*  for(var i=0;i<data.length;i++){
                     var d = data[i];
                     if(d.adminUser){
                         layer.msg("不能删除超级管理员");
                         return false;
                     }
-                }
+                }*/
                 layer.confirm("你确定要删除这些用户么？",{ skin: 'layui-layer-molv'
                         ,closeBtn: 1,
                         icon: 3, title: '提示',btn:['是的,我确定','我再想想']},

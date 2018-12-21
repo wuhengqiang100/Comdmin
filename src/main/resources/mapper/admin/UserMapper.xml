@@ -73,10 +73,10 @@
         <if test="requestPlace != null and requestPlace != ''">
             AND s.request_place=#{requestPlace }
         </if>
-        <if test="age != null">
+        <if test="age != null and age!=''">
            AND s.age=#{age }
         </if>
-        <if test="tel != null">
+        <if test="tel != null and age!=''">
            AND s.tel=#{tel }
         </if>
         <if test="email != null and email != ''">
