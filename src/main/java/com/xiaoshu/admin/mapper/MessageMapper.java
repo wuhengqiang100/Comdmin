@@ -1,6 +1,7 @@
 package com.xiaoshu.admin.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.xiaoshu.admin.entity.Farm;
 import com.xiaoshu.admin.entity.Message;
 import com.xiaoshu.admin.entity.Role;
 import com.xiaoshu.admin.entity.User;
@@ -20,6 +21,12 @@ public interface MessageMapper extends BaseMapper<Message> {
     void saveUserRoles(@Param("userId") String id, @Param("roleIds") Set<Role> roles);
 
     void dropUserRolesByUserId(@Param("userId") String id);*/
-     void saveMessage(Message message);
+
      List<Message> selectMessageList(String toUser);
+
+    int selectMessageListCount(String toUser);
+
+    Message selectMessageById(@Param("id") String id);
+
+    void saveMessageByUpdatePro(Message message);
 }

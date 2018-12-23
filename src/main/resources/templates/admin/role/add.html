@@ -47,7 +47,16 @@
                                 <div class="layui-form-item">
                                     <label class="layui-form-label">分配权限:</label>
                                     <div class="layui-input-block">
-                                        <div class="layui-inline" th:each="menu : ${menuList}">
+                                        <div class="layui-collapse" lay-accordion >
+                                            <div class="layui-colla-item" th:each="menu : ${menuList}">
+                                                <h2 class="layui-colla-title"> <input type="checkbox" th:title="${menu.name}" th:value="${menu.id}"
+                                                                                      lay-filter="roleMenu" th:data-parentIds="${menu.parentIds}"/>
+                                                </h2>
+                                                <div class="layui-colla-content"
+                                                     th:include="/admin/role/menu::addMenuLi(${menu.children})"></div>
+                                            </div>
+                                        </div>
+                                        <!--<div class="layui-inline" th:each="menu : ${menuList}">
                                             <fieldset class="layui-elem-field">
                                                 <legend style="font-size: small">
                                                     <input type="checkbox" th:title="${menu.name}" th:value="${menu.id}"
@@ -56,7 +65,7 @@
                                                 <div class="layui-field-box" style="font-size: small"  th:include="/admin/role/menu::addMenuLi(${menu.children})">
                                                 </div>
                                             </fieldset>
-                                        </div>
+                                        </div>-->
                                     </div>
                                 </div>
                             </div>

@@ -9,6 +9,7 @@ import com.xiaoshu.admin.entity.vo.ShowMenuVo;
 import com.xiaoshu.admin.mapper.MessageMapper;
 import com.xiaoshu.admin.mapper.UserMapper;
 import com.xiaoshu.admin.service.MenuService;
+import com.xiaoshu.admin.service.MessageService;
 import com.xiaoshu.admin.service.RoleService;
 import com.xiaoshu.admin.service.UserService;
 import com.xiaoshu.common.annotation.SysLog;
@@ -17,6 +18,7 @@ import com.xiaoshu.common.exception.UserTypeAccountException;
 import com.xiaoshu.common.realm.AuthRealm;
 import com.xiaoshu.common.util.Constants;
 import com.xiaoshu.common.util.ResponseEntity;
+import com.xiaoshu.common.util.RoleUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.IncorrectCredentialsException;
@@ -69,6 +71,9 @@ public class LonginController {
 
     @Autowired
     MessageMapper messageMapper;
+
+    @Autowired
+    MessageService messageService;
 
     public enum LoginTypeEnum {
         PAGE, ADMIN
@@ -128,7 +133,7 @@ public class LonginController {
     }
 
     @GetMapping(value = "index")
-    public String index(HttpSession session, @ModelAttribute(LOGIN_TYPE) String loginType) {
+    public String index(HttpSession session, @ModelAttribute(LOGIN_TYPE) String loginType,ModelMap modelMap) {
 
         if (StringUtils.isBlank(loginType)) {
             LoginTypeEnum attribute = (LoginTypeEnum) session.getAttribute(LOGIN_TYPE);
@@ -136,6 +141,10 @@ public class LonginController {
         }
         if (LoginTypeEnum.ADMIN.name().equals(loginType)) {
             AuthRealm.ShiroUser principal = (AuthRealm.ShiroUser) SecurityUtils.getSubject().getPrincipal();
+            List<Message> messageListTop= messageService.selectMessageList(MySysUser.id());
+            int messageListCount=messageService.selectMessageListCount(MySysUser.id());
+            modelMap.put("messageListTop",messageListTop);
+            modelMap.put("messageListCount",messageListCount);
             session.setAttribute("icon", StringUtils.isBlank(principal.getIcon()) ? "/static/admin/img/face.jpg" : principal.getIcon());
             return "admin/index";
         } else {
@@ -212,72 +221,18 @@ public class LonginController {
     @PostMapping(value = "admin/login")
     @SysLog("用户登录")
     @ResponseBody
-    public ResponseEntity adminLogin(@ModelAttribute Role lRole, HttpServletRequest request) {
+    public ResponseEntity adminLogin(@ModelAttribute User loginUser, HttpServletRequest request,@RequestParam(value = "roleId",required = false)String roleId) {
+        Role loginRole=roleService.getRoleById(roleId);
         String code = request.getParameter("code");
         String rememberMe = request.getParameter("rememberMe");
-      /*  if (StringUtils.isBlank(username) || StringUtils.isBlank(password)) {
-            return ResponseEntity.failure("用户名或者密码不能为空");
-        } else*/
-        List<Role> roleList = roleService.selectAll();
-//        Map<String,Object> loginUser=new HashMap();
-        User loginUser = new User();
-        if(null==lRole.getName()){
+
+        if (null==roleId){
             return ResponseEntity.failure("请选择您的请求!");
         }
-        //循环查找符合的令牌
-            for (Role sRole : roleList) {
-                //身份验证
-
-                if (StringUtils.isNotBlank(lRole.getIdentity())) {
-
-//                loginUser.put("identity",lRole.getIdentity());
-                    if (!StringUtils.endsWith(lRole.getIdentity(), sRole.getIdentity())) {
-                        continue;
-                    }else{
-                        loginUser.setIdentity(lRole.getIdentity());
-                    }
-                }
-                if (StringUtils.isNotEmpty(lRole.getRequestPlace())) {
-//                loginUser.put("requestPlace",lRole.getRequestPlace());
-
-                    if (!StringUtils.endsWith(lRole.getRequestPlace(), sRole.getRequestPlace())) {
-                        continue;
-                    }else{
-                        loginUser.setRequestPlace(lRole.getRequestPlace());
-                    }
-                }
-                if (StringUtils.isNotEmpty(lRole.getTel())) {
-//                loginUser.put("tel",lRole.getTel());
-
-                    if (!StringUtils.endsWith(lRole.getTel(), sRole.getTel())) {
-                        continue;
-                    }else{
-                        loginUser.setTel(lRole.getTel());
-                    }
-                }
-                if (StringUtils.isNotEmpty(lRole.getEmail())) {
-//                loginUser.put("email",lRole.getEmail());
-
-                    if (!StringUtils.endsWith(lRole.getEmail(), sRole.getEmail())) {
-                        continue;
-                    }else{
-                        loginUser.setEmail(lRole.getEmail());
-                    }
-                }
-                if (StringUtils.isNotEmpty(lRole.getAge())) {
-//                loginUser.put("age",lRole.getAge());
-
-                    if (!StringUtils.endsWith(lRole.getAge(), sRole.getAge())) {
-                        continue;
-                    }else{
-                        loginUser.setAge(lRole.getAge());
-                    }
-                }
-        }
-
-        if (null==loginUser) {
+        if (!RoleUtil.contrastRoleAndProperties(loginRole,loginUser)){
             return ResponseEntity.failure("您输入的请求或属性不正确!");
         }
+
         if (StringUtils.isBlank(code)) {
             return ResponseEntity.failure("验证码不能为空");
         }
@@ -295,7 +250,7 @@ public class LonginController {
             /*当前用户*/
             String errorMsg = null;
             Subject user = SecurityUtils.getSubject();
-            User secutityUser = null;
+            User secutityUser=null;
             try {
                 secutityUser = userMapper.selectUserByUser(loginUser);
             } catch (Exception e) {
@@ -305,38 +260,9 @@ public class LonginController {
                 return ResponseEntity.failure("您输入的请求或属性不正确!");
             }*/
             if (null==secutityUser){
-                return ResponseEntity.failure("您输入的属性值不对!");
+                return ResponseEntity.failure("属性值不正确!");
             }
-            try {
-                if (StringUtils.isNotEmpty(lRole.getIdentity())) {
-                    if (!secutityUser.getIdentity().equals(lRole.getIdentity())) {
-                        return ResponseEntity.failure("请求身份不正确!");
-                    }
-                }
-                if (StringUtils.isNotEmpty(lRole.getRequestPlace())) {
-                    if (!secutityUser.getRequestPlace().equals(lRole.getRequestPlace())) {
-                        return ResponseEntity.failure("请求地址不正确!");
-                    }
-                }
-                if (StringUtils.isNotEmpty(lRole.getAge())) {
-                    if (!secutityUser.getAge().equals(lRole.getAge())) {
-                        return ResponseEntity.failure("年龄不正确!");
-                    }
-                }
-                if (StringUtils.isNotEmpty(lRole.getTel())) {
-                    if (!secutityUser.getTel().equals(lRole.getTel())) {
-                        return ResponseEntity.failure("电话号码不正确!");
-                    }
-                }
-                if (StringUtils.isNotEmpty( lRole.getEmail())) {
-                    if (!secutityUser.getEmail().equals(lRole.getEmail())) {
-                        return ResponseEntity.failure("邮箱地址不正确!");
-                    }
 
-                }
-            } catch (Exception e) {
-                return ResponseEntity.failure("您输入的属性值不正确,请联系管理员!");
-            }
             UsernamePasswordToken token = new UsernamePasswordToken(secutityUser.getLoginName(), "123456", Boolean.valueOf(rememberMe));
             try {
                 user.login(token);
@@ -499,7 +425,7 @@ public class LonginController {
     @GetMapping("admin/main")
     public String main( ModelMap modelMap) {
         String userId = MySysUser.id();
-        List<Message>  messageList=messageMapper.selectMessageList(userId);
+        List<Message>  messageList=messageService.selectAllByToUser(userId);
         User currentUser=userService.findUserById(userId);
 //        session.setAttribute("messageList",messageList);
         modelMap.put("messageList",messageList);

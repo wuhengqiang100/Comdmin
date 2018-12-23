@@ -4,9 +4,10 @@ Array.prototype.contains = function ( needle ) {
     }
     return false;
 };
-layui.use(['form','layer','jquery'], function(){
+layui.use(['form','layer','element','jquery'], function(){
     var form = layui.form,
         layer = layui.layer,
+        element = layui.element,
         $ = layui.jquery;
     form.on('checkbox(roleMenu)',function(data){
         var v = data.elem.getAttribute("data-parentIds"),

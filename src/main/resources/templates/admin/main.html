@@ -110,11 +110,12 @@
                                 <div class="comment-main">
                                     <header class="comment-header">
                                         <div class="comment-meta"><a class="comment-author" style="font-style: inherit;font-weight: 700;" href="#" th:text="${message.fromUser.nickName}"></a> 评论于
-                                            <time th:text="${#dates.format(message.sendTime,'yyyy-MM-dd HH:mm:ss')}"></time>
+                                            <time th:text="${#dates.format(message.createDate,'yyyy-MM-dd HH:mm:ss')}"></time>
                                         </div>
                                     </header>
                                     <div class="comment-body">
-                                        <p th:text="${message.title}"><a href="#">@某人</a> 系统真不错！！！</p>
+                                        <p>标题:<a href="#" th:text="${message.title}"></p>
+                                        <p >内容:<a href="#" th:text="${message.content}"></p>
                                     </div>
                                 </div>
                             </li>

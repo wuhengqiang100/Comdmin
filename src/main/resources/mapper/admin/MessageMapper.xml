@@ -2,32 +2,78 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.xiaoshu.admin.mapper.MessageMapper">
 
-
-    <resultMap type="com.xiaoshu.admin.entity.Message" id="MessageMap">
-        <result property="fromU" column="fromU"/>
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.xiaoshu.admin.entity.Message">
         <result property="title" column="title"/>
         <result property="content" column="content"/>
-        <result property="messageType" column="messageType"/>
-        <result property="toUser" column="toUser"/>
-        <result property="isLook" column="isLook"/>
-        <result property="sendTime" column="sendTime"/>
-        <collection property="fromUser"  ofType="com.xiaoshu.admin.entity.User">
-            <result property="id" column="fromUser.id"/>
-            <result property="loginName" column="login_name"/>
-            <result property="nickName" column="nick_name"/>
+        <result property="messageType" column="message_type"/>
+        <result property="toUser" column="to_user"/>
+        <result property="createName" column="create_name"/>
+        <result property="remarks" column="remarks"/>
+        <result property="isLook" column="is_look"/>
+        <collection property="fromUser" ofType="com.xiaoshu.admin.entity.User">
+            <result property="id" column="fromUser.id"></result>
+            <result column="nick_name" property="nickName"></result>
         </collection>
     </resultMap>
+    <resultMap id="MessageMapToUser" type="com.xiaoshu.admin.entity.Message">
+        <result property="title" column="title"/>
+        <result property="content" column="content"/>
+        <result property="messageType" column="message_type"/>
+        <result property="toUser" column="to_user"/>
+        <result property="createName" column="create_name"/>
+        <result property="remarks" column="remarks"/>
+        <result property="isLook" column="is_look"/>
+        <collection property="toUser" ofType="com.xiaoshu.admin.entity.User">
+            <result property="id" column="fromUser.id"></result>
+            <result column="nick_name" property="nickName"></result>
+        </collection>
+    </resultMap>
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, title, content, message_type,to_user,remarks, create_by,create_name, create_date, update_by, update_date,del_flag,is_look
+    </sql>
+    <!--    <resultMap type="com.xiaoshu.admin.entity.Message" id="MessageMap">
+            <result property="fromU" column="fromU"/>
+            <result property="title" column="title"/>
+            <result property="content" column="content"/>
+            <result property="messageType" column="messageType"/>
+            <result property="toUser" column="toUser"/>
+            <result property="isLook" column="isLook"/>
+            <result property="sendTime" column="sendTime"/>
+            <collection property="fromUser"  ofType="com.xiaoshu.admin.entity.User">
+                <result property="id" column="fromUser.id"/>
+                <result property="loginName" column="login_name"/>
+                <result property="nickName" column="nick_name"/>
+            </collection>
+        </resultMap>-->
+    <select id="selectMessageById" resultMap="BaseResultMap"  parameterType="java.lang.String">
+        SELECT
+        tm.*
+        from
+        t_message tm
+        WHERE
+        <if test="id != null and id != ''">
+            tm.id = #{id}
+        </if>
+    </select>
 
-    <insert id="saveMessage">
-        INSERT INTO t_message
-        (id,fromU,title,content,messageType,isLook,sendTime,toUser)
-        VALUES
-        (NULL ,#{fromU},#{title},#{content},#{messageType},0,now(),#{toUser});
-    </insert>
+       <insert id="saveMessageByUpdatePro">
+           INSERT INTO t_message
+           (id,title,content,message_type,to_user,remarks,create_by,create_name,create_date,update_by,update_date,del_flag,is_look)
+           VALUES
+           (NULL ,#{title},#{content},#{messageType},#{toUser},#{remarks},#{createId},#{createName},#{createDate},#{updateId},now(),#{delFlag},#{isLook});
+       </insert>
 
-    <select id="selectMessageList" resultMap="MessageMap" parameterType="String">
-        select tm.*,su.* from t_message tm
-        LEFT JOIN sys_user su ON  tm.fromU=su.id
-        where tm.toUser=#{toUser} AND tm.isLook=0;
+    <select id="selectMessageList" resultMap="BaseResultMap" parameterType="String">
+        select tm.*,su.id,su.nick_name from t_message tm
+        left join sys_user su on su.id=tm.create_by
+        where tm.to_user=#{toUser} AND tm.del_flag=0 AND tm.is_look=0;
+    </select>
+
+    <select id="selectMessageListCount" resultType="int"  parameterType="String">
+        select count(*) from t_message tm
+        left join sys_user su on su.id=tm.create_by
+        where tm.to_user=#{toUser} AND tm.del_flag=0 AND tm.is_look=0;
     </select>
 </mapper>

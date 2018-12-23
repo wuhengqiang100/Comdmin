@@ -22,7 +22,7 @@
         <div class="layui-inline">
             <label class="layui-form-label" style="font-size: large;color: white">选择请求:</label>
             <div class="layui-input-inline">
-                <select id="init"  name="name" lay-filter="selected" lay-verify="required" lay-search="">
+                <select id="init"  name="roleId" lay-filter="selected" lay-verify="required" lay-search="">
                     <option class="init"  value="1">直接选择或搜索选择</option>
                     <div th:each="aim : ${session.roleList}">
                         <option th:value="${aim.id}" th:text="${aim.name}"></option>

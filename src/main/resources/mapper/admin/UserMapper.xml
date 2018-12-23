@@ -130,6 +130,7 @@
           and (
           u.login_name = #{loginName}
           or u.tel = #{loginName}
+          or u.nick_name = #{loginName}
           or u.email = #{loginName}
           )
       </if>

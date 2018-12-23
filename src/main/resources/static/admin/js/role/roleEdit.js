@@ -5,9 +5,10 @@ Array.prototype.contains = function ( needle ) {
     return false;
 };
 
-layui.use(['form','jquery','layer'],function(){
+layui.use(['form','jquery','element','layer'],function(){
     var form = layui.form,
         $ = layui.jquery,
+        element = layui.element,
         layer = layui.layer;
 
     form.on('checkbox(roleMenu)',function(data){

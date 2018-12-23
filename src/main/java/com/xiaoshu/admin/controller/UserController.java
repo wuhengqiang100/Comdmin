@@ -31,10 +31,7 @@ import org.springframework.web.util.WebUtils;
 import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Controller
@@ -71,7 +68,7 @@ public class UserController {
         Map map = WebUtils.getParametersStartingWith(request, "s_");
         PageData<User> userPageData = new PageData<>();
         QueryWrapper<User> userWrapper = new QueryWrapper<>();
-//        userWrapper.eq("del_flag",false);
+        userWrapper.eq("del_flag",false);
         if(!map.isEmpty()){
             String type = (String) map.get("type");
             if(StringUtils.isNotBlank(type)) {
@@ -311,23 +308,28 @@ public class UserController {
         return "admin/user/changeProperties";
     }
 
-    @SysLog("用户修改属性")
+    @SysLog("用户修改属性之发送消息")
     @PostMapping("changeProperties")
     @ResponseBody
     public ResponseEntity changeProperties(){
-        User user= userService.findUserByLoginName("管理员");
+        User rootUser=userService.findUserByLoginName("java");
         String fromUserId = MySysUser.id();
+        User messageUser=userService.getById(fromUserId);
         Message message=new Message();
         message.setTitle("申请修改属性值");
-        message.setFromU(fromUserId);
-        message.setContent("");
+        message.setContent(messageUser.getNickName()+"申请修改属性值");
         message.setMessageType("属性更改");
-        message.setToUser(user.getId());
+        message.setCreateId(fromUserId);
+        message.setCreateName(messageUser.getNickName());
+        message.setCreateDate(new Date());
+        message.setUpdateId(fromUserId);
+        message.setUpdateDate(new Date());
+        message.setToUser(rootUser.getId());
         if (StringUtils.isBlank(message.getTitle())){
             return ResponseEntity.failure("标题不能为空!");
         }
-        messageMapper.saveMessage(message);
-        return ResponseEntity.success("修改成功");
+        messageService.saveMessage(message);
+        return ResponseEntity.success("消息发送成功");
     }
 
 

@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -78,6 +79,11 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     public void lockUser(User user) {
         user.setLocked(!user.getLocked());
         user.updateById();
+    }
+
+    @Override
+    public List<User> findAllUser() {
+        return baseMapper.findAllUser();
     }
 
     @Transactional(rollbackFor = Exception.class)

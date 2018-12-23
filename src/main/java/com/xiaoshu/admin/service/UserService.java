@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.xiaoshu.admin.entity.Role;
 import com.xiaoshu.admin.entity.User;
 
+import java.util.List;
 import java.util.Set;
 
 public interface UserService extends IService<User> {
@@ -23,4 +24,6 @@ public interface UserService extends IService<User> {
     void deleteUser(User user);
 
     void lockUser(User user);
+
+    List<User> findAllUser();
 }

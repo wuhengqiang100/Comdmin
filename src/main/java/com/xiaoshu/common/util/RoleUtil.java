@@ -33,7 +33,7 @@ public class RoleUtil{
     }
 
     /**
-     * 分配令牌是判断用户属性值是否符合
+     * 分配令牌时判断用户属性值是否符合
      * @param role
      * @param user
      * @return

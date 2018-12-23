@@ -11,23 +11,74 @@ public class Message extends DataEntity<Message> {
     /**
      * 消息id
      */
-    @TableField("fromU")
-    private String fromU;
+
     @TableField("title")
     private String title;
     @TableField("content")
     private String content;
-    @TableField("messageType")
+    @TableField("message_type")
     private String messageType;
-    @TableField("toUser")
+    @TableField("to_user")
     private String toUser;
-    @TableField("isLook")
-    private String isLook;
-    @TableField("sendTime")
-    private Date sendTime;
+    @TableField("remarks")
+    private String remarks;
+    @TableField("create_date")
+    private Date createDate;
+
+    @TableField("create_by")
+    private String createId;
+
+    @TableField("create_name")
+    private String createName;
+
+    @TableField("update_date")
+    private Date updateDate;
+
+    @TableField("update_by")
+    private String updateId;
+    @TableField("del_flag")
+    private Boolean delFlag;
+    @TableField("is_look")
+    private Boolean isLook;
+
+    public Boolean getLook() {
+        return isLook;
+    }
+
+    public void setLook(Boolean look) {
+        isLook = look;
+    }
 
     @TableField(exist=false)
     private User fromUser;
+
+    public String getToUser() {
+        return toUser;
+    }
+
+
+
+    public void setToUser(String toUser) {
+        this.toUser = toUser;
+    }
+
+    public String getCreateName() {
+        return createName;
+    }
+
+    public void setCreateName(String createName) {
+        this.createName = createName;
+    }
+
+    @Override
+    public String getRemarks() {
+        return remarks;
+    }
+
+    @Override
+    public void setRemarks(String remarks) {
+        this.remarks = remarks;
+    }
 
     public User getFromUser() {
         return fromUser;
@@ -37,29 +88,7 @@ public class Message extends DataEntity<Message> {
         this.fromUser = fromUser;
     }
 
-    public String getIsLook() {
-        return isLook;
-    }
 
-    public void setIsLook(String isLook) {
-        this.isLook = isLook;
-    }
-
-    public Date getSendTime() {
-        return sendTime;
-    }
-
-    public void setSendTime(Date sendTime) {
-        this.sendTime = sendTime;
-    }
-
-    public String getFromU() {
-        return fromU;
-    }
-
-    public void setFromU(String fromU) {
-        this.fromU = fromU;
-    }
 
     public String getTitle() {
         return title;
@@ -85,11 +114,53 @@ public class Message extends DataEntity<Message> {
         this.messageType = messageType;
     }
 
-    public String getToUser() {
-        return toUser;
+    @Override
+    public Date getCreateDate() {
+        return createDate;
     }
 
-    public void setToUser(String toUser) {
-        this.toUser = toUser;
+    @Override
+    public void setCreateDate(Date createDate) {
+        this.createDate = createDate;
+    }
+
+    @Override
+    public String getCreateId() {
+        return createId;
+    }
+
+    @Override
+    public void setCreateId(String createId) {
+        this.createId = createId;
+    }
+
+    @Override
+    public Date getUpdateDate() {
+        return updateDate;
+    }
+
+    @Override
+    public void setUpdateDate(Date updateDate) {
+        this.updateDate = updateDate;
+    }
+
+    @Override
+    public String getUpdateId() {
+        return updateId;
+    }
+
+    @Override
+    public void setUpdateId(String updateId) {
+        this.updateId = updateId;
+    }
+
+    @Override
+    public Boolean getDelFlag() {
+        return delFlag;
+    }
+
+    @Override
+    public void setDelFlag(Boolean delFlag) {
+        this.delFlag = delFlag;
     }
 }

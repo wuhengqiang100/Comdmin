@@ -2,28 +2,32 @@ package com.xiaoshu.admin.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.xiaoshu.admin.entity.Message;
+import com.xiaoshu.admin.entity.Message;
 import com.xiaoshu.admin.entity.Role;
 import com.xiaoshu.admin.entity.User;
 
+import java.util.List;
 import java.util.Set;
 
 public interface MessageService extends IService<Message> {
 
-    void saveMesage(Message message);
+//    void saveMesage(Message message);
 
-/*    User findUserByLoginName(String name);
+    long getMessageNameCount(String name);
 
-    User findUserById(String id);
+    Message saveMessage(Message message);
 
-    int userCount(String loginName);
+    Message getMessageById(String id);
 
-    void saveUserRoles(String id, Set<Role> roleLists);*/
-/*
-    void saveUser(User user);
+    void updateMessage(Message message);
 
-    void updateUser(User user);
+    void deleteMessage(Message message);
 
-    void deleteUser(User user);
+    List<Message> selectAll();
 
-    void lockUser(User user);*/
+    List<Message> selectMessageList(String toUser);
+
+    List<Message> selectAllByToUser(String toUser);
+
+    int selectMessageListCount(String toUser);
 }
