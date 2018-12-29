@@ -77,7 +77,12 @@
                     <a th:href="@{/systemLogout}" class="signOut"><i class="iconfont icon-loginout"></i> 退出</a>
                 </li>
                 <li class="layui-nav-item" pc>
-                    <a href="javascript:" data-url="/admin/user/message/list" class="getMessage"><i class="layui-icon layui-icon-speaker"></i><cite>我的消息</cite><span class="layui-badge" style="font-size: xx-small;" th:text="${messageListCount}" >0</span></a>
+                    <a href="javascript:" data-url="" class=""><i class="layui-icon layui-icon-speaker"></i><cite>信誉值</cite><span
+                            class="layui-badge" style="font-size: xx-small;" th:text="${messageListCount}">10</span></a>
+                </li>
+                <li class="layui-nav-item" pc>
+                    <a href="javascript:" data-url="/admin/user/message/list" class="getMessage"><i class="layui-icon layui-icon-speaker"></i><cite>我的消息</cite><span
+                            class="layui-badge" style="font-size: xx-small;" th:text="${messageListCount}">0</span></a>
                 </li>
                 <li class="layui-nav-item" pc>
 

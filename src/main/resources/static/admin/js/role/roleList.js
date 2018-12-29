@@ -9,12 +9,12 @@ layui.use(['layer','form','table'], function() {
         var data = obj.data;
         if(obj.event === 'edit'){
             var editIndex = layer.open({
-                title : "编辑令牌",
+                title : "编辑策略",
                 type : 2,
                 content : "/admin/system/role/edit?id="+data.id,
                 success : function(layero, index){
                     setTimeout(function(){
-                        layer.tips('点击此处返回令牌列表', '.layui-layer-setwin .layui-layer-close', {
+                        layer.tips('点击此处返回策略列表', '.layui-layer-setwin .layui-layer-close', {
                             tips: 3
                         });
                     },500);
@@ -27,7 +27,7 @@ layui.use(['layer','form','table'], function() {
             layer.full(editIndex);
         }
         if(obj.event === "del"){
-            layer.confirm("你确定要删除该令牌么？",{ skin: 'layui-layer-molv'
+            layer.confirm("你确定要删除该策略么？",{ skin: 'layui-layer-molv'
                     ,closeBtn: 1,
                     icon: 3, title: '提示',btn:['是的,我确定','我再想想']},
                 function(){
@@ -61,7 +61,7 @@ layui.use(['layer','form','table'], function() {
         cols: [[
             {type:'checkbox'},
            /* {field:'id',        title: 'ID'   },*/
-            {field:'name',        title: '令牌名称',width:'10%'   },
+            {field:'name',        title: '策略名称',width:'10%'   },
             {field:'identity',    title: '请求身份',width:'8%'   },
             {field:'requestPlace',title: '请求地点',width:'8%'   },
             {field:'tel',         title: '手机号码',width:'10%'   },
@@ -81,12 +81,12 @@ layui.use(['layer','form','table'], function() {
     var active={
         addUser : function(){
             addIndex = layer.open({
-                title : "添加令牌",
+                title : "添加策略",
                 type : 2,
                 content : "/admin/system/role/add",
                 success : function(layero, addIndex){
                     setTimeout(function(){
-                        layer.tips('点击此处返回令牌列表', '.layui-layer-setwin .layui-layer-close', {
+                        layer.tips('点击此处返回策略列表', '.layui-layer-setwin .layui-layer-close', {
                             tips: 3
                         });
                     },500);
@@ -104,7 +104,7 @@ layui.use(['layer','form','table'], function() {
                 data = checkStatus.data;
             if(data.length > 0){
                 console.log(JSON.stringify(data));
-                layer.confirm("你确定要删除这些令牌么？",{ skin: 'layui-layer-molv'
+                layer.confirm("你确定要删除这些策略么？",{ skin: 'layui-layer-molv'
                         ,closeBtn: 1,
                         icon: 3, title: '提示',btn:['是的,我确定','我再想想']},
                     function(){
@@ -129,7 +129,7 @@ layui.use(['layer','form','table'], function() {
                     }
                 )
             }else{
-                layer.msg("请选择需要删除的令牌",{time:1000});
+                layer.msg("请选择需要删除的策略",{time:1000});
             }
         }
     };

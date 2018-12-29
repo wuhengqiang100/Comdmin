@@ -54,7 +54,7 @@ layui.use(['form','layer','element','jquery'], function(){
             success:function(res){
                 layer.close(loadIndex);
                 if(res.success){
-                    parent.layer.msg("令牌添加成功！",{time:1000},function(){
+                    parent.layer.msg("策略添加成功！",{time:1000},function(){
                         //刷新父页面
                         parent.location.reload();
                     });

@@ -11,7 +11,7 @@ import java.util.Date;
  */
 @TableName("t_farm")
 public class Farm extends DataEntity<Farm>{
-
+    private static final long serialVersionUID = 1L;
     /*@TableField("id")
     private Integer id;*/
 

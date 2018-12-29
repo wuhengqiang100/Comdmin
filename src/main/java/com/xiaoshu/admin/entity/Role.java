@@ -3,6 +3,7 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.xiaoshu.common.base.DataEntity;
 
+import java.util.HashSet;
 import java.util.Set;
 
 @TableName("sys_role")
@@ -36,6 +37,8 @@ public class Role extends DataEntity<Role> {
 
     @TableField(exist = false)
     private Set<User> userSet;
+
+
 
 
 

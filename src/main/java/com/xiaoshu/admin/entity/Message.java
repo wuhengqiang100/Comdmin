@@ -8,10 +8,8 @@ import java.util.Date;
 
 @TableName("t_message")
 public class Message extends DataEntity<Message> {
-    /**
-     * 消息id
-     */
 
+    private static final long serialVersionUID = 1L;
     @TableField("title")
     private String title;
     @TableField("content")

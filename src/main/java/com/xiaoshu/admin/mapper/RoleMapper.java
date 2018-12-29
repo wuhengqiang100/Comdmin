@@ -3,8 +3,11 @@ package com.xiaoshu.admin.mapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.xiaoshu.admin.entity.Menu;
 import com.xiaoshu.admin.entity.Role;
+
+import java.util.List;
 import java.util.Set;
 
+import com.xiaoshu.admin.entity.User;
 import org.apache.ibatis.annotations.Param;
 
 public interface RoleMapper extends BaseMapper<Role> {
@@ -16,4 +19,6 @@ public interface RoleMapper extends BaseMapper<Role> {
     void dropRoleMenus(@Param("roleId") String roleId);
 
     void dropRoleUsers(@Param("roleId") String roleId);
+
+    List<Role> selectUserInRole(@Param("roleId") String roleId);
 }

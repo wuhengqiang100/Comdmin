@@ -38,7 +38,7 @@ layui.use(['form','jquery','element','layer'],function(){
     });
     form.on("submit(editRole)",function(data){
         if(data.field.id == null){
-            layer.msg("令牌ID不存在");
+            layer.msg("策略ID不存在");
             return false;
         }
         var menus = [];
@@ -63,10 +63,19 @@ layui.use(['form','jquery','element','layer'],function(){
             success:function(res){
                 layer.close(loadIndex);
                 if(res.success){
-                    parent.layer.msg("令牌编辑成功！",{time:1000},function(){
+                    parent.layer.confirm(res.message, {
+                            skin: 'layui-layer-molv'
+                            ,closeBtn: 1,
+                            icon: 3, title: '提示',btn:['好的']},
+                        function(){
+                            parent.location.reload();
+                        },function(){
+
+                        });
+                 /*   parent.layer.msg(res.message,{time:1000},function(){
                         //刷新父页面
                         parent.location.reload();
-                    });
+                    });*/
                 }else{
                     layer.confirm(res.message, {
                         skin: 'layui-layer-molv'

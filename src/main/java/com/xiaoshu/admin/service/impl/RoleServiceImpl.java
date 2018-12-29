@@ -3,6 +3,7 @@ package com.xiaoshu.admin.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.xiaoshu.admin.entity.Role;
+import com.xiaoshu.admin.entity.User;
 import com.xiaoshu.admin.mapper.RoleMapper;
 import com.xiaoshu.admin.service.RoleService;
 import org.springframework.stereotype.Service;
@@ -61,5 +62,10 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper,Role> implements Rol
         QueryWrapper wrapper = new QueryWrapper();
         wrapper.eq("del_flag",false);
         return baseMapper.selectList(wrapper);
+    }
+
+    @Override
+    public List<Role> selectUserInRole(String id) {
+        return baseMapper.selectUserInRole(id);
     }
 }

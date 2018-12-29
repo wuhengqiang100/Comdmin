@@ -11,7 +11,7 @@ import java.util.Set;
 
 @TableName("sys_user")
 public class User extends DataEntity<User> {
-
+    private static final long serialVersionUID = 1L;
     /**
      * 登录名
      */

@@ -3,7 +3,7 @@
       xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
 <head>
     <meta charset="utf-8">
-    <title>令牌修改--系统令牌管理</title>
+    <title>策略修改--系统策略管理</title>
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -46,7 +46,7 @@
             <div class="layui-row layui-col-space12">
                 <div class="layui-col-md5 layui-col-md-offset1">
                     <div class="layui-card">
-                        <div class="layui-card-header nameTitle">令牌权限</div>
+                        <div class="layui-card-header nameTitle">策略权限</div>
                         <div class="layui-card-body">
                             <div class="layui-row">
                                 <div class="layui-form-item">
@@ -81,11 +81,11 @@
                 </div>
                 <div class="layui-col-md5 layui-col-md-offset0.1">
                     <div class="layui-card">
-                        <div class="layui-card-header nameTitle">令牌属性</div>
+                        <div class="layui-card-header nameTitle">策略属性</div>
                         <div class="layui-card-body">
                             <div class="layui-row">
                                 <div class="layui-form-item">
-                                    <label class="layui-form-label">令牌名称:</label>
+                                    <label class="layui-form-label">策略名称:</label>
                                     <div class="layui-input-block">
                                         <input type="text" name="name" required lay-verify="required" th:value="${role.name}" placeholder="请输入名称"
                                                autocomplete="off"
@@ -93,7 +93,7 @@
                                     </div>
                                 </div>
                                 <div class="layui-form-item">
-                                    <label class="layui-form-label">令牌身份:</label>
+                                    <label class="layui-form-label">策略身份:</label>
                                     <div class="layui-input-block">
                                         <input type="text" class="layui-input" name="identity" th:value="${role.identity}" style="margin-top: 30px;"
                                                placeholder="请输入身份">
@@ -119,7 +119,7 @@
                                     <div class="layui-input-block">
                                         <input type="text" class="layui-input" name="email" th:value="${role.email}"
                                                style="margin-top: 30px;"
-                                               placeholder="请想一个令牌名称">
+                                               placeholder="请想一个策略名称">
                                     </div>
                                 </div>
                                 <div class="layui-form-item">

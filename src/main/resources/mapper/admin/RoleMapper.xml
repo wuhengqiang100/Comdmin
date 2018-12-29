@@ -57,6 +57,54 @@
     </collection>
   </resultMap>
 
+  <resultMap id="RoleMap01" type="com.xiaoshu.admin.entity.Role">
+    <id column="id" property="id" />
+    <result column="name" property="name" />
+    <result column="create_date" property="createDate" />
+    <result column="create_by" property="createBy" />
+    <result column="update_date" property="updateDate" />
+    <result column="update_by" property="updateBy" />
+    <result column="remarks" property="remarks" />
+    <result column="del_flag" property="delFlag" />
+    <result column="identity" property="identity"/>
+    <result column="request_place" property="requestPlace"/>
+    <result column="age" property="age"/>
+    <result column="tel" property="tel"/>
+    <result column="email" property="email"/>
+    <collection property="userSet"  ofType="com.xiaoshu.admin.entity.User">
+      <result property="id" column="userSet.id"/>
+      <result property="loginName" column="userSet.loginName"/>
+      <result property="nickName" column="userSet.nickName"/>
+    </collection>
+  </resultMap>
+
+
+  <select id="selectUserInRole" resultMap="RoleMap01"  parameterType="java.lang.String">
+    SELECT
+    r.id,
+    r.name,
+    r.remarks,
+    r.del_flag,
+    r.identity,
+    r.request_place,
+    r.age,
+    r.tel,
+    r.email,
+    su.id  	        AS 	"userSet.id",
+    su.login_name          AS  "userSet.loginName",
+    su.nick_name    AS  "userSet.nickName"
+    from
+    sys_role r
+    left join sys_user_role  sur 	on 	    sur.role_id = r.id
+    left join sys_user  su    		on 	    sur.user_id = su.id
+    where
+    r.del_flag = FALSE
+    <if test="roleId != null and roleId != ''">
+      and r.id = #{roleId}
+    </if>
+    and su.del_flag=FALSE
+  </select>
+
   <select id="selectRoleById" resultMap="RoleMap"  parameterType="java.lang.String">
     SELECT
     r.id,

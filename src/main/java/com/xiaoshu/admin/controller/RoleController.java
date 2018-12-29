@@ -22,9 +22,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.WebUtils;
 
 import javax.servlet.ServletRequest;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Controller
@@ -134,24 +132,37 @@ public class RoleController {
     @PostMapping("edit")
     @ResponseBody
     @SysLog("保存编辑令牌数据")
-    public ResponseEntity edit(@RequestBody Role role){
-        if(StringUtils.isBlank(role.getId())){
+    public ResponseEntity edit(@RequestBody Role role) {
+        if (StringUtils.isBlank(role.getId())) {
             return ResponseEntity.failure("令牌ID不能为空");
         }
-        if(StringUtils.isBlank(role.getName())){
+        if (StringUtils.isBlank(role.getName())) {
             return ResponseEntity.failure("令牌名称不能为空");
         }
-        if (!RoleUtil.threeRoleProperties(role)){
+        if (!RoleUtil.threeRoleProperties(role)) {
             return ResponseEntity.failure("令牌属性最少为2个!");
         }
         Role oldRole = roleService.getRoleById(role.getId());
-        if(!oldRole.getName().equals(role.getName())){
-            if(roleService.getRoleNameCount(role.getName())>0){
+        if (!oldRole.getName().equals(role.getName())) {
+            if (roleService.getRoleNameCount(role.getName()) > 0) {
                 return ResponseEntity.failure("令牌名称已存在");
             }
         }
         roleService.updateRole(role);
-        return ResponseEntity.success("操作成功");
+        List<Role> roleList = null;
+        try {
+            roleList = roleService.selectUserInRole(role.getId());
+            Set<User> userSet=roleList.get(0).getUserSet();
+            List<User> userList=new ArrayList<User>(userSet);
+            String updateUser="";
+            for (User user : userList) {
+                updateUser=" "+user.getNickName()+" ";
+            }
+            return ResponseEntity.success("令牌修改成功,请更改用户" + updateUser + "的属性值");
+        } catch (Exception e) {
+            return ResponseEntity.success("令牌修改成功,该令牌下没有用户");
+        }
+
     }
 
     @RequiresPermissions("sys:role:delete")

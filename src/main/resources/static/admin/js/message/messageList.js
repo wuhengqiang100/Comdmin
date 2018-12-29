@@ -144,7 +144,10 @@ layui.use(['layer', 'form', 'laytpl', 'table'], function () {
                                 layer.close(deleteindex);
                                 if (res.success) {
                                     layer.msg("更新成功", {time: 1000}, function () {
-                                        table.reload('message-table', t);
+                                        // parent.reload();
+                                        parent.location.reload();
+                                        // parent.layer.reload();
+                                        // table.reload('message-table', t);
                                     });
                                 } else {
                                     layer.msg(res.message);
