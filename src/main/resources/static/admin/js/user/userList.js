@@ -23,10 +23,11 @@ layui.use(['layer','form','table'], function() {
             /*{field:'loginName', title: '登录名称', width:'10%'},*/
             {field:'nickName',  title: '昵称',    width:'8%'},
             {field:'identity',  title: '身份',    width:'8%'},
-            {field:'requestPlace',  title: '请求地址',    width:'8%'},
-            {field:'tel',       title: '电话',    width:'10%'},
-            {field:'email',     title: '邮箱',    width:'14%' },
+            {field:'requestPlace',  title: '请求地址',    width:'6%'},
+            {field:'tel',       title: '电话',    width:'8%'},
+            {field:'email',     title: '邮箱',    width:'12%' },
             {field:'age',     title: '年龄',    width:'4%' },
+            {field:'credit',    title: '信誉度',width:'6%'},
             {field:'adminUser', title: '用户类型', width:'8%',templet:'#userType'},
             {field:'locked',    title: '状态',width:'10%',templet:'#userStatus'},
             {field:'createDate',  title: '创建时间',width:'14%', templet:'<span>{{ layui.laytpl.toDateString(d.createDate) }}</span>'}, //单元格内容水平居中

@@ -131,19 +131,60 @@ layui.config({
     })
 
 
-    $(".getMessage").mouseover(function(){
+  /*  $(".getMessage").mouseover(function(){
         layer.tips('有新消息', '.getMessage', {
             tips: [3, '#3595CC'],
             time:1000
         });
-    })
+    })*/
 
     //退出
     $(".signOut").click(function(){
-        window.sessionStorage.removeItem("menu");
-        menu = [];
-        window.sessionStorage.removeItem("curmenu");
+        layer.alert($('.showLogout'), {
+            skin: 'layui-layer-molv' //样式类名
+            ,type:1
+            ,closeBtn: 1
+            ,area: ['250px', '200px']
+            , btn: ['退出系统','我再想想']
+        }, function(){
+            window.sessionStorage.removeItem("menu");
+            menu = [];
+            window.sessionStorage.removeItem("curmenu");
+            location.href = "/systemLogout";
+            var index = layer.alert();
+            layer.close(index);
+            return true;
+        },function(){
+            var index = layer.alert();
+            layer.close(index);
+        });
     })
+
+    $('input[type="submit"]').mousedown(function(){
+        $(this).css('background', '#2ecc71');
+    });
+    $('input[type="submit"]').mouseup(function(){
+        $(this).css('background', '#1abc9c');
+    });
+
+    $('.getMessage').mouseover(function(){
+        $('.login').fadeToggle('slow');
+        $(this).toggleClass('green');
+    });
+
+
+
+    $(document).mouseup(function (e)
+    {
+        var container = $(".login");
+
+        if (!container.is(e.target) // if the target of the click isn't the container...
+            && container.has(e.target).length === 0) // ... nor a descendant of the container
+        {
+            container.hide();
+            $('#loginform').removeClass('green');
+        }
+    });
 
     //隐藏左侧导航
     $(".hideMenu").click(function(){

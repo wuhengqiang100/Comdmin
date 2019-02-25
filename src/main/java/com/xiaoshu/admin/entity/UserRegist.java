@@ -71,6 +71,9 @@ public class UserRegist extends DataEntity<UserRegist> {
     @TableField(value = "is_admin")
     private Boolean adminUser;
 
+    @TableField("credit")
+    private int credit;
+
     @TableField(strategy= FieldStrategy.IGNORED)
     private String icon;
 
@@ -181,5 +184,13 @@ public class UserRegist extends DataEntity<UserRegist> {
 
     public void setAge(String age) {
         this.age = age;
+    }
+
+    public int getCredit() {
+        return credit;
+    }
+
+    public void setCredit(int credit) {
+        this.credit = credit;
     }
 }

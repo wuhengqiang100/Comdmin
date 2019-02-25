@@ -143,8 +143,10 @@ public class LonginController {
             AuthRealm.ShiroUser principal = (AuthRealm.ShiroUser) SecurityUtils.getSubject().getPrincipal();
             List<Message> messageListTop= messageService.selectMessageList(MySysUser.id());
             int messageListCount=messageService.selectMessageListCount(MySysUser.id());
+            User currentUser=userService.findUserById(MySysUser.id());
             modelMap.put("messageListTop",messageListTop);
             modelMap.put("messageListCount",messageListCount);
+            modelMap.put("currentUser",currentUser);
             session.setAttribute("icon", StringUtils.isBlank(principal.getIcon()) ? "/static/admin/img/face.jpg" : principal.getIcon());
             return "admin/index";
         } else {
@@ -261,6 +263,9 @@ public class LonginController {
             }*/
             if (null==secutityUser){
                 return ResponseEntity.failure("属性值不正确!");
+            }
+            if (secutityUser.getCredit()<5){
+                return ResponseEntity.failure("信誉值不足，不能访问!");
             }
 
             UsernamePasswordToken token = new UsernamePasswordToken(secutityUser.getLoginName(), "123456", Boolean.valueOf(rememberMe));

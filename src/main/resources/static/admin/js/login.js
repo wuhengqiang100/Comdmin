@@ -18,6 +18,7 @@ layui.use(['form', 'layer'], function () {
                 location.href = "/" + res.url;
             } else {
                 layer.alert(res.message, {
+                    skin: 'layui-layer-molv',
                     closeBtn: 1    // 是否显示关闭按钮
                     ,anim:6
                     ,btn: ['确定并重新输入'] //按钮
@@ -25,7 +26,8 @@ layui.use(['form', 'layer'], function () {
                         // obj.del();
                         // layer.close(index);
                         $("#randImage").click();
-                        location.reload()
+                        layer.closeAll("dialog");
+                        // location.reload()
                     }
                 });
               /*  layer.msg(res.message);

@@ -55,8 +55,8 @@ public class User extends DataEntity<User> {
     @TableField("age")
     private String age;
 
-  /*  @TableField("reputation")
-    private String reputation;*/
+    @TableField("credit")
+    private int credit;
     /**
      * 账户是否锁定
      */
@@ -189,5 +189,13 @@ public class User extends DataEntity<User> {
 
     public void setAge(String age) {
         this.age = age;
+    }
+
+    public int getCredit() {
+        return credit;
+    }
+
+    public void setCredit(int credit) {
+        this.credit = credit;
     }
 }

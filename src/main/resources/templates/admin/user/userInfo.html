@@ -49,6 +49,12 @@
                                 </div>
                             </div>
                             <div class="layui-form-item">
+                                <label class="layui-form-label">信誉值</label>
+                                <div class="layui-input-block inputWidth">
+                                    <input type="text" th:value="${userinfo.credit}" name="credit" disabled class="layui-input layui-disabled">
+                                </div>
+                            </div>
+                            <div class="layui-form-item">
                                 <label class="layui-form-label">昵称</label>
                                 <div class="layui-input-block inputWidth">
                                     <input type="text" th:value="${userinfo.nickName}" name="nickName" class="layui-input">
@@ -60,6 +66,7 @@
                                     <input type="checkbox" disabled th:title="${item.name}" checked>
                                 </div>
                             </div>
+
                             <div class="layui-form-item">
                                 <label class="layui-form-label">自我介绍</label>
                                 <div class="layui-input-block inputWidth">
